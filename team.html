@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team — Neue Welt Agentur</title>
+    <meta
+      name="description"
+      content="Das Team der Neue Welt Agentur: Creative Directors & Partner."
+    />
+    <meta name="theme-color" content="#ff2c3b" />
+    <link rel="icon" href="assets/svg/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/svg/favicon.svg" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="assets/fonts/eb-garamond-latin.woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Custom Cursor -->
+    <div class="cursor" aria-hidden="true"></div>
+
+    <!-- ===================== Header ===================== -->
+    <header class="site-header" data-color="dunkel">
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menu"
+      >
+        Menü
+      </button>
+      <a class="header-kompass" href="index.html" aria-label="Startseite">
+        <span class="mask mask--kompass" role="img" aria-hidden="true"></span>
+      </a>
+    </header>
+
+    <!-- ===================== Menü-Overlay ===================== -->
+    <nav class="menu-overlay" id="menu" aria-hidden="true">
+      <div class="menu-overlay__top">
+        <button class="menu-close" type="button">
+          Schliessen
+          <svg class="menu-close__x" viewBox="0 0 20 20" aria-hidden="true" fill="none">
+            <line x1="4" y1="4" x2="16" y2="16" />
+            <line x1="16" y1="4" x2="4" y2="16" />
+          </svg>
+        </button>
+      </div>
+      <div class="menu-nav">
+        <a class="nav-work" href="index.html#work">Work</a>
+        <a class="nav-manifesto" href="index.html#manifesto">Manifesto</a>
+        <a class="nav-team" href="team.html">Team</a>
+      </div>
+      <div class="menu-meta">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+    </nav>
+
+    <!-- ===================== Team ===================== -->
+    <main class="team" data-color="dunkel">
+      <div class="team__head">
+        <h1 class="team__title">Team</h1>
+        <p class="team__intro">
+          Creative Directors &amp; Partner der Neue Welt Agentur — Konzept,
+          Talent und Verbindungen unter einem Dach.
+        </p>
+      </div>
+
+      <div class="team__grid">
+        <article class="team-card">
+          <div class="team-card__photo">
+            <img src="assets/img/work-placeholder.jpg" alt="" loading="lazy" />
+          </div>
+          <h2 class="team-card__name">Daryl Kastenholz</h2>
+          <p class="team-card__role">Creative Director &amp; Partner</p>
+          <p class="team-card__focus">Mentoring &amp; Talent</p>
+        </article>
+
+        <article class="team-card">
+          <div class="team-card__photo">
+            <img src="assets/img/work-placeholder.jpg" alt="" loading="lazy" />
+          </div>
+          <h2 class="team-card__name">Marco Pröfrock</h2>
+          <p class="team-card__role">Creative Director &amp; Partner</p>
+          <p class="team-card__focus">Concept &amp; Advertising</p>
+        </article>
+
+        <article class="team-card">
+          <div class="team-card__photo">
+            <img src="assets/img/work-placeholder.jpg" alt="" loading="lazy" />
+          </div>
+          <h2 class="team-card__name">David Bosch</h2>
+          <p class="team-card__role">Creative Director &amp; Partner</p>
+          <p class="team-card__focus">Outreach &amp; Connections</p>
+        </article>
+      </div>
+    </main>
+
+    <!-- ===================== Footer ===================== -->
+    <footer class="site-footer" data-color="rot">
+      <div class="site-footer__grid">
+        <a href="index.html" aria-label="Neue Welt Agentur — Startseite">
+          <span
+            class="site-footer__mark mask mask--wortmarke"
+            role="img"
+            aria-label="Neue Welt Agentur"
+          ></span>
+        </a>
+        <nav class="site-footer__links" aria-label="Rechtliches">
+          <a href="index.html#manifesto">Manifesto</a>
+          <a href="index.html#work">Work</a>
+          <a href="team.html">Team</a>
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutz</a>
+        </nav>
+      </div>
+      <p class="site-footer__copy">© <span id="year">2026</span> Neue Welt Agentur</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -3,10 +3,15 @@
   "use strict";
 
   var doc = document;
+  var root = doc.documentElement;
   var header = doc.querySelector(".site-header");
   var overlay = doc.getElementById("menu");
   var toggle = doc.querySelector(".menu-toggle");
   var closeBtn = doc.querySelector(".menu-close");
+
+  var reduceMotion =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* --------------------------------------------------------------------- *
    * Jahr im Footer
@@ -18,48 +23,50 @@
    * Menü-Overlay öffnen / schließen
    * --------------------------------------------------------------------- */
   function openMenu() {
+    if (!overlay) return;
     overlay.classList.add("is-open");
     overlay.setAttribute("aria-hidden", "false");
-    toggle.setAttribute("aria-expanded", "true");
+    if (toggle && toggle.tagName === "BUTTON")
+      toggle.setAttribute("aria-expanded", "true");
     doc.body.style.overflow = "hidden";
   }
 
   function closeMenu() {
+    if (!overlay) return;
     overlay.classList.remove("is-open");
     overlay.setAttribute("aria-hidden", "true");
-    toggle.setAttribute("aria-expanded", "false");
+    if (toggle && toggle.tagName === "BUTTON")
+      toggle.setAttribute("aria-expanded", "false");
     doc.body.style.overflow = "";
   }
 
-  if (toggle) toggle.addEventListener("click", openMenu);
+  // Menü-Button öffnet nur, wenn er wirklich ein Button ist (Startseite);
+  // auf Unterseiten ist ".menu-toggle" ein Zurück-Link.
+  if (toggle && toggle.tagName === "BUTTON")
+    toggle.addEventListener("click", openMenu);
   if (closeBtn) closeBtn.addEventListener("click", closeMenu);
 
-  // Klick auf einen Menüpunkt: schließen (Anker-Scroll übernimmt der Browser)
-  overlay.querySelectorAll(".menu-nav a, .menu-meta a").forEach(function (a) {
-    a.addEventListener("click", function () {
-      // interne Anker sanft schließen; externe Links (html-Seiten) navigieren ohnehin
-      closeMenu();
+  if (overlay) {
+    overlay
+      .querySelectorAll(".menu-nav a, .menu-meta a")
+      .forEach(function (a) {
+        a.addEventListener("click", closeMenu);
+      });
+    doc.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && overlay.classList.contains("is-open"))
+        closeMenu();
     });
-  });
-
-  // ESC schließt das Menü
-  doc.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && overlay.classList.contains("is-open")) {
-      closeMenu();
-    }
-  });
+  }
 
   /* --------------------------------------------------------------------- *
    * Header-Farbe je Sektion (IntersectionObserver)
-   * Die Sektion, die gerade die Header-Zone kreuzt, bestimmt die Farbe.
    * --------------------------------------------------------------------- */
   var sections = doc.querySelectorAll("[data-color]");
-  // nur echte Layout-Sektionen beobachten (nicht den Header selbst)
   var observed = Array.prototype.filter.call(sections, function (s) {
     return !s.classList.contains("site-header");
   });
 
-  if ("IntersectionObserver" in window) {
+  if (header && "IntersectionObserver" in window) {
     var io = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
@@ -69,7 +76,6 @@
           }
         });
       },
-      // schmales Band direkt unter der Oberkante = Header-Höhe
       { rootMargin: "0px 0px -92% 0px", threshold: 0 }
     );
     observed.forEach(function (s) {
@@ -78,23 +84,41 @@
   }
 
   /* --------------------------------------------------------------------- *
-   * Custom Cursor (nur bei präzisem Zeiger / Maus)
+   * Custom Cursor — rAF-geführt, kein CSS-Transform-Transition (kein Lag)
    * --------------------------------------------------------------------- */
-  var fine = window.matchMedia && window.matchMedia("(pointer: fine)").matches;
-  var cursor = doc.querySelector(".cursor");
+  (function () {
+    var fine =
+      window.matchMedia && window.matchMedia("(pointer: fine)").matches;
+    var cursor = doc.querySelector(".cursor");
+    if (!fine || !cursor) return;
 
-  if (fine && cursor) {
-    doc.documentElement.classList.add("has-custom-cursor");
+    root.classList.add("has-custom-cursor");
 
-    var x = window.innerWidth / 2;
-    var y = window.innerHeight / 2;
+    var px = window.innerWidth / 2;
+    var py = window.innerHeight / 2;
+    var raf = null;
+    var seen = false;
+
+    function render() {
+      raf = null;
+      // ganzzahlig runden → keine Subpixel-Zittern
+      cursor.style.transform =
+        "translate3d(" + Math.round(px) + "px," + Math.round(py) + "px,0)";
+    }
+    function schedule() {
+      if (raf === null) raf = window.requestAnimationFrame(render);
+    }
 
     window.addEventListener(
       "mousemove",
       function (e) {
-        x = e.clientX;
-        y = e.clientY;
-        cursor.style.transform = "translate(" + x + "px," + y + "px)";
+        px = e.clientX;
+        py = e.clientY;
+        if (!seen) {
+          seen = true;
+          cursor.classList.add("is-visible");
+        }
+        schedule();
       },
       { passive: true }
     );
@@ -102,18 +126,188 @@
     // Über Links/Buttons: Kompass-Cursor
     var interactiveSel = "a, button, [role='button']";
     doc.addEventListener("mouseover", function (e) {
-      if (e.target.closest(interactiveSel)) cursor.classList.add("is-link");
+      if (e.target.closest && e.target.closest(interactiveSel))
+        cursor.classList.add("is-link");
     });
     doc.addEventListener("mouseout", function (e) {
-      if (e.target.closest(interactiveSel)) cursor.classList.remove("is-link");
+      if (e.target.closest && e.target.closest(interactiveSel))
+        cursor.classList.remove("is-link");
     });
 
-    // Cursor ausblenden, wenn das Fenster verlassen wird
+    // Sichtbarkeit beim Verlassen/Betreten des Fensters
     doc.addEventListener("mouseleave", function () {
-      cursor.style.opacity = "0";
+      cursor.classList.remove("is-visible");
     });
     doc.addEventListener("mouseenter", function () {
-      cursor.style.opacity = "1";
+      if (seen) cursor.classList.add("is-visible");
     });
-  }
+
+    // Wenn ein natives Element (input/textarea) den Zeiger braucht,
+    // blenden wir den Custom-Cursor aus.
+    doc.addEventListener("mouseover", function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest("input, textarea, select, [contenteditable]"))
+        cursor.classList.add("is-text");
+    });
+    doc.addEventListener("mouseout", function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest("input, textarea, select, [contenteditable]"))
+        cursor.classList.remove("is-text");
+    });
+  })();
+
+  /* --------------------------------------------------------------------- *
+   * Hero-Wortmarke: beim Scrollen fixiert, wird nur kleiner ("Zoom"),
+   * Farb-Cut an der Grenze Bild → rote Fläche (oben rot, unten dunkel),
+   * parkt über dem Manifesto-Text.
+   * --------------------------------------------------------------------- */
+  (function () {
+    var markOverlay = doc.querySelector(".mark-overlay");
+    var manifesto = doc.getElementById("manifesto");
+    var manifestoMark = manifesto
+      ? manifesto.querySelector(".manifesto__wortmarke")
+      : null;
+    if (!markOverlay || !manifesto || !manifestoMark) return;
+
+    var layerRot = markOverlay.querySelector(".mark-overlay__layer--rot");
+    var layerDun = markOverlay.querySelector(".mark-overlay__layer--dunkel");
+    var WM_RATIO = 221.62 / 1838.26; // Höhe / Breite der Wortmarke
+
+    var enabled = false;
+    var m = null; // gemessene Kennwerte
+    var raf = null;
+
+    function vpW() {
+      return window.innerWidth || root.clientWidth || 0;
+    }
+    function vpH() {
+      return window.innerHeight || root.clientHeight || 0;
+    }
+
+    function canEnable() {
+      return (
+        !reduceMotion &&
+        window.matchMedia("(min-width: 769px)").matches &&
+        vpH() > 480
+      );
+    }
+
+    function easeInOut(t) {
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+
+    function measure() {
+      var vw = vpW();
+      var vh = vpH();
+      var scrollY = window.pageYOffset;
+
+      var mfTop = manifesto.getBoundingClientRect().top + scrollY; // Doc-Y der roten Fläche
+      if (mfTop < 1) mfTop = vh; // Sicherheitsnetz
+
+      // Zielgeometrie = Manifesto-Wortmarke, sobald die rote Fläche oben anliegt
+      var mr = manifestoMark.getBoundingClientRect();
+      var endWidth = mr.width;
+      var endHeight = endWidth * WM_RATIO;
+      var endDocTop = mr.top + scrollY; // Doc-Y der Ziel-Wortmarke
+      var endViewTop = endDocTop - mfTop; // Screen-Y, wenn Manifesto oben anliegt
+      var anchorCenter = endViewTop + endHeight / 2; // fixe Bildschirmmitte
+
+      var startWidth = Math.min(vw * 0.92, 1600);
+      var startHeight = startWidth * WM_RATIO;
+
+      m = {
+        vw: vw,
+        vh: vh,
+        mfTop: mfTop,
+        anchorCenter: anchorCenter,
+        startWidth: startWidth,
+        startHeight: startHeight,
+        endWidth: endWidth,
+        endHeight: endHeight,
+      };
+    }
+
+    function update() {
+      raf = null;
+      if (!enabled || !m) return;
+
+      var scrollY = window.pageYOffset;
+      var p = m.mfTop > 0 ? scrollY / m.mfTop : 1;
+      if (p < 0) p = 0;
+      if (p > 1) p = 1;
+
+      // Nach Abschluss: statische Manifesto-Wortmarke übernimmt nahtlos
+      if (p >= 1) {
+        markOverlay.style.display = "none";
+        manifestoMark.style.visibility = "";
+        return;
+      }
+      markOverlay.style.display = "block";
+      manifestoMark.style.visibility = "hidden";
+
+      var e = easeInOut(p);
+      var w = m.startWidth + (m.endWidth - m.startWidth) * e;
+      var h = w * WM_RATIO;
+      var top = m.anchorCenter - h / 2; // Mitte bleibt fix → "bewegt sich nicht"
+      var left = (m.vw - w) / 2;
+
+      markOverlay.style.width = w + "px";
+      markOverlay.style.height = h + "px";
+      markOverlay.style.transform =
+        "translate3d(" + Math.round(left) + "px," + Math.round(top) + "px,0)";
+
+      // Farb-Cut: Oberkante der roten Fläche im Viewport
+      var splitView = m.mfTop - scrollY;
+      var splitWithin = splitView - top;
+      if (splitWithin < 0) splitWithin = 0;
+      if (splitWithin > h) splitWithin = h;
+
+      // oberhalb der Grenze (über dem Bild) → rot
+      layerRot.style.clipPath =
+        "inset(0 0 " + (h - splitWithin) + "px 0)";
+      // unterhalb der Grenze (über der roten Fläche) → dunkel
+      layerDun.style.clipPath = "inset(" + splitWithin + "px 0 0 0)";
+    }
+
+    function schedule() {
+      if (raf === null) raf = window.requestAnimationFrame(update);
+    }
+
+    function enable() {
+      enabled = true;
+      root.classList.add("has-mark-scroll");
+      measure();
+      update();
+    }
+    function disable() {
+      enabled = false;
+      root.classList.remove("has-mark-scroll");
+      markOverlay.style.display = "none";
+      markOverlay.removeAttribute("style");
+      markOverlay.style.display = "none";
+      manifestoMark.style.visibility = "";
+    }
+
+    function evaluate() {
+      if (canEnable()) {
+        if (!enabled) enable();
+        else {
+          measure();
+          update();
+        }
+      } else if (enabled) {
+        disable();
+      }
+    }
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", function () {
+      evaluate();
+    });
+    window.addEventListener("load", evaluate);
+    // Fonts können die Wortmarken-Größe verschieben → neu vermessen
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(evaluate);
+
+    evaluate();
+  })();
 })();

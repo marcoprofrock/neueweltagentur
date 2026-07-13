@@ -239,6 +239,13 @@ button {
   font-family: var(--serif);
   font-size: clamp(4rem, 10.4vw, 12.5rem);
 }
+.menu-nav .nav-team {
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 8.9vw, 10.625rem);
+}
+.menu-overlay.is-open .menu-nav a:nth-child(3) {
+  transition-delay: 0.26s;
+}
 .menu-meta {
   flex: 0 0 auto;
   display: flex;
@@ -337,20 +344,19 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: clamp(2.5rem, 6vw, 5rem);
-  padding: clamp(4.5rem, 10vw, 8rem) var(--rand) clamp(3rem, 6vw, 5rem);
+  /* Wortmarke parkt weiter oben, damit sie beim Scroll-Zoom „stehen bleibt" */
+  padding: clamp(5rem, 34vh, 20rem) var(--rand) clamp(3rem, 6vw, 5rem);
   text-align: center;
 }
 .manifesto__wortmarke {
   color: var(--dunkel-text);
   width: 100%;
-  max-width: min(74vw, 880px);
+  max-width: min(60vw, 660px);
   margin-inline: auto;
 }
 .manifesto__text {
   max-width: 22ch;
-  margin: 0 auto;
+  margin: clamp(2.75rem, 7vw, 5rem) auto 0;
   font-size: clamp(1.75rem, 3.65vw, 4.375rem);
   line-height: 1.12;
   letter-spacing: -0.025em;
@@ -358,7 +364,37 @@ button {
 }
 .manifesto__stern {
   width: clamp(3.75rem, 6vw, 5.5rem);
+  margin-top: clamp(3rem, 8vw, 6rem);
   color: var(--dunkel-text);
+}
+
+/* ==========================================================================
+   Scroll-Wortmarke: fixierter Zwei-Ton-Übergang Hero → Manifesto
+   ========================================================================== */
+.mark-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  display: none;
+  pointer-events: none;
+  will-change: transform, width, height;
+}
+.mark-overlay__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mark-overlay__layer--rot {
+  color: var(--rot);
+}
+.mark-overlay__layer--dunkel {
+  color: var(--dunkel-text);
+}
+/* Aktiv: statische Hero-/Manifesto-Wortmarke weichen dem Overlay */
+.has-mark-scroll .hero__inner {
+  visibility: hidden;
 }
 @media (prefers-reduced-motion: no-preference) {
   .manifesto__stern .mask {
@@ -551,6 +587,84 @@ button {
 }
 
 /* ==========================================================================
+   Team
+   ========================================================================== */
+.team {
+  background: var(--rot);
+  color: var(--dunkel-text);
+  min-height: 100svh;
+  padding: calc(var(--header-h) + clamp(2.5rem, 7vw, 6rem)) var(--rand)
+    clamp(4rem, 8vw, 7rem);
+}
+.team__head {
+  max-width: 60rem;
+  margin: 0 auto clamp(3rem, 6vw, 5.5rem);
+  text-align: center;
+}
+.team__title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin: 0 0 clamp(1rem, 2.5vw, 2rem);
+}
+.team__intro {
+  max-width: 34ch;
+  margin: 0 auto;
+  font-size: clamp(1.15rem, 1.7vw, 1.6rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  opacity: 0.85;
+}
+.team__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  max-width: 84rem;
+  margin: 0 auto;
+}
+.team-card {
+  display: flex;
+  flex-direction: column;
+}
+.team-card__photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #d9d7d3; /* neutrale Platzhalter-Fläche */
+  margin-bottom: clamp(1rem, 1.6vw, 1.6rem);
+}
+.team-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Platzhalter bleibt neutral S/W — echte Portraits ersetzen die Datei später */
+  filter: grayscale(1) contrast(1.02);
+}
+.team-card__name {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 2.4vw, 2.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+.team-card__role {
+  margin-top: 0.35em;
+  font-family: var(--grotesk);
+  font-weight: 700;
+  font-size: clamp(1rem, 1.35vw, 1.3rem);
+  letter-spacing: -0.01em;
+}
+.team-card__focus {
+  margin-top: 0.15em;
+  font-family: var(--grotesk);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.35vw, 1.3rem);
+  letter-spacing: -0.01em;
+  opacity: 0.78;
+}
+
+/* ==========================================================================
    Custom Cursor (nur bei präzisem Zeiger)
    ========================================================================== */
 .cursor {
@@ -558,26 +672,44 @@ button {
 }
 @media (pointer: fine) {
   .has-custom-cursor,
-  .has-custom-cursor a,
-  .has-custom-cursor button {
-    cursor: none;
+  .has-custom-cursor * {
+    cursor: none !important;
   }
+  /* Äußeres Element = reine Position (kein Transition → kein Lag/Versatz) */
   .cursor {
     display: block;
     position: fixed;
     top: 0;
     left: 0;
-    width: 26px;
-    height: 26px;
+    width: 0;
+    height: 0;
     z-index: 9999;
     pointer-events: none;
-    margin: -3px 0 0 -3px; /* Pfeilspitze an Mausposition */
-    background: center / contain no-repeat url("../assets/svg/cursor-pfeil.svg");
-    transition: width 0.2s var(--ease), height 0.2s var(--ease),
-      margin 0.2s var(--ease), transform 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.2s ease;
     will-change: transform;
   }
-  .cursor.is-link {
+  .cursor.is-visible {
+    opacity: 1;
+  }
+  .cursor.is-text {
+    opacity: 0;
+  }
+  /* Inneres Element = Optik (Größe/Animation getrennt von der Position) */
+  .cursor::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 26px;
+    height: 26px;
+    /* Pfeilspitze (Hotspot ~23%/3% der 250er-Fläche) an die Mausposition */
+    margin: -1px 0 0 -6px;
+    background: center / contain no-repeat url("../assets/svg/cursor-pfeil.svg");
+    transition: width 0.18s var(--ease), height 0.18s var(--ease),
+      margin 0.18s var(--ease);
+  }
+  .cursor.is-link::before {
     width: 40px;
     height: 40px;
     margin: -20px 0 0 -20px; /* Kompass zentriert auf Maus */
@@ -585,7 +717,7 @@ button {
   }
 }
 @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .cursor.is-link {
+  .cursor.is-link::before {
     animation: spin 6s linear infinite;
   }
 }
@@ -611,6 +743,13 @@ button {
     grid-template-columns: 1fr;
   }
   .work-card {
+    aspect-ratio: 3 / 2;
+  }
+  .team__grid {
+    grid-template-columns: 1fr;
+    max-width: 26rem;
+  }
+  .team-card__photo {
     aspect-ratio: 3 / 2;
   }
 }
