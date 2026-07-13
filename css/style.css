@@ -217,7 +217,7 @@ button {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
@@ -238,14 +238,14 @@ button {
   flex: 0 0 auto;
   scroll-snap-align: center;
   display: block;
-  padding: clamp(0.25rem, 1vh, 0.75rem) 0.5em;
+  padding: clamp(0.25rem, 1vh, 0.75rem) 0;
   font-family: var(--serif); /* Secondary für die Ränder */
   font-size: clamp(3rem, 9.5vw, 11rem);
   line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--schwarz);
-  text-align: center;
-  transform-origin: center;
+  text-align: left;
+  transform-origin: left center;
   will-change: transform, opacity;
   transition: color 0.25s ease;
 }
