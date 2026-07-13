@@ -344,8 +344,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Wortmarke parkt weiter oben, damit sie beim Scroll-Zoom „stehen bleibt" */
-  padding: clamp(5rem, 34vh, 20rem) var(--rand) clamp(3rem, 6vw, 5rem);
+  padding: clamp(4.5rem, 10vw, 8rem) var(--rand) clamp(3rem, 6vw, 5rem);
   text-align: center;
 }
 .manifesto__wortmarke {
@@ -392,8 +391,8 @@ button {
 .mark-overlay__layer--dunkel {
   color: var(--dunkel-text);
 }
-/* Aktiv: statische Hero-/Manifesto-Wortmarke weichen dem Overlay */
-.has-mark-scroll .hero__inner {
+/* Aktiv: statische Hero-Wortmarke weicht dem Overlay (Stern bleibt sichtbar) */
+.has-mark-scroll .hero__wortmarke {
   visibility: hidden;
 }
 @media (prefers-reduced-motion: no-preference) {

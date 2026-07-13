@@ -167,7 +167,8 @@
     var manifestoMark = manifesto
       ? manifesto.querySelector(".manifesto__wortmarke")
       : null;
-    if (!markOverlay || !manifesto || !manifestoMark) return;
+    var heroMark = doc.querySelector(".hero__wortmarke--1z");
+    if (!markOverlay || !manifesto || !manifestoMark || !heroMark) return;
 
     var layerRot = markOverlay.querySelector(".mark-overlay__layer--rot");
     var layerDun = markOverlay.querySelector(".mark-overlay__layer--dunkel");
@@ -204,16 +205,21 @@
       var mfTop = manifesto.getBoundingClientRect().top + scrollY; // Doc-Y der roten Fläche
       if (mfTop < 1) mfTop = vh; // Sicherheitsnetz
 
-      // Zielgeometrie = Manifesto-Wortmarke, sobald die rote Fläche oben anliegt
+      // Start = natürliche Hero-Wortmarke (Position UND Größe).
+      // Der Hero liegt am Dokumentanfang → Doc-Y == Screen-Y bei Scroll 0.
+      var hr = heroMark.getBoundingClientRect();
+      var startWidth = hr.width;
+      var anchorCenter = hr.top + scrollY + hr.height / 2; // hier bleibt sie stehen
+
+      // Ziel = Manifesto-Wortmarke; ihre Mitte wird per Margin exakt auf den
+      // Anker geschoben, sobald die rote Fläche oben anliegt → nahtloser Cut.
+      manifestoMark.style.marginTop = "";
       var mr = manifestoMark.getBoundingClientRect();
       var endWidth = mr.width;
       var endHeight = endWidth * WM_RATIO;
-      var endDocTop = mr.top + scrollY; // Doc-Y der Ziel-Wortmarke
-      var endViewTop = endDocTop - mfTop; // Screen-Y, wenn Manifesto oben anliegt
-      var anchorCenter = endViewTop + endHeight / 2; // fixe Bildschirmmitte
-
-      var startWidth = Math.min(vw * 0.92, 1600);
-      var startHeight = startWidth * WM_RATIO;
+      var curCenterDoc = mr.top + scrollY + endHeight / 2;
+      var delta = mfTop + anchorCenter - curCenterDoc;
+      manifestoMark.style.marginTop = Math.round(delta) + "px";
 
       m = {
         vw: vw,
@@ -221,7 +227,7 @@
         mfTop: mfTop,
         anchorCenter: anchorCenter,
         startWidth: startWidth,
-        startHeight: startHeight,
+        startHeight: startWidth * WM_RATIO,
         endWidth: endWidth,
         endHeight: endHeight,
       };
@@ -286,6 +292,7 @@
       markOverlay.removeAttribute("style");
       markOverlay.style.display = "none";
       manifestoMark.style.visibility = "";
+      manifestoMark.style.marginTop = "";
     }
 
     function evaluate() {
