@@ -27,12 +27,17 @@
 
 /* ---- Design-Tokens -------------------------------------------------------- */
 :root {
+  /* Farben: Rot / Weiss / Schwarz */
   --rot: #ff2c3b;
-  --dunkel: #20201e;
-  --dunkel-text: #191919;
+  --weiss: #ffffff;
+  --schwarz: #000000;
+  --dunkel: var(--schwarz);
+  --dunkel-text: var(--schwarz);
 
+  /* Typo: Helvetica/NHG = Primary, EB Garamond = Secondary */
+  --grotesk: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
   --serif: "EB Garamond", Georgia, "Times New Roman", serif;
-  --grotesk: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --rand: clamp(1.375rem, 2.14vw, 2.5625rem); /* 22px … 41px Seitenrand */
   --header-h: clamp(3.75rem, 7vw, 5.75rem);
@@ -80,6 +85,10 @@ button {
 :focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
+}
+::selection {
+  background: var(--weiss);
+  color: var(--schwarz);
 }
 
 /* Icons/Wortmarken als CSS-Maske → Farbe via background-color umschaltbar ---- */
@@ -201,50 +210,51 @@ button {
   stroke: currentColor;
   stroke-width: 1.4;
 }
-.menu-nav {
+/* Scroll-Menü (Serviceplan-Style): mittiger Eintrag am größten + Grotesk,
+   die anderen in Garamond; Auswahl per Scrollen, Snap auf die Mitte. */
+.menu-scroller {
   flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: clamp(0.25rem, 0.5vw, 0.75rem);
-  padding-bottom: var(--header-h);
+  align-items: center;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
-.menu-nav a {
+.menu-scroller::-webkit-scrollbar {
+  display: none;
+}
+/* Puffer, damit erster/letzter Eintrag in die Mitte scrollen kann */
+.menu-scroller::before,
+.menu-scroller::after {
+  content: "";
+  flex: 0 0 38%;
+}
+.menu-item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
   display: block;
-  line-height: 0.92;
+  padding: clamp(0.25rem, 1vh, 0.75rem) 0.5em;
+  font-family: var(--serif); /* Secondary für die Ränder */
+  font-size: clamp(3rem, 9.5vw, 11rem);
+  line-height: 1.05;
   letter-spacing: -0.03em;
-  transform: translateY(0.4em);
-  opacity: 0;
-  transition: transform 0.6s var(--ease), opacity 0.6s ease, color 0.25s ease;
+  color: var(--schwarz);
+  text-align: center;
+  transform-origin: center;
+  will-change: transform, opacity;
+  transition: color 0.25s ease;
 }
-.menu-overlay.is-open .menu-nav a {
-  transform: translateY(0);
-  opacity: 1;
-}
-.menu-overlay.is-open .menu-nav a:nth-child(1) {
-  transition-delay: 0.12s;
-}
-.menu-overlay.is-open .menu-nav a:nth-child(2) {
-  transition-delay: 0.19s;
-}
-.menu-nav a:hover {
-  color: var(--dunkel);
-}
-.menu-nav .nav-work {
-  font-family: var(--grotesk);
+.menu-item.is-center {
+  font-family: var(--grotesk); /* Primary in der Mitte */
   font-weight: 500;
-  font-size: clamp(3.5rem, 8.9vw, 10.625rem);
 }
-.menu-nav .nav-manifesto {
-  font-family: var(--serif);
-  font-size: clamp(4rem, 10.4vw, 12.5rem);
-}
-.menu-nav .nav-team {
-  font-family: var(--serif);
-  font-size: clamp(3.5rem, 8.9vw, 10.625rem);
-}
-.menu-overlay.is-open .menu-nav a:nth-child(3) {
-  transition-delay: 0.26s;
+.menu-item:hover {
+  color: var(--weiss);
 }
 .menu-meta {
   flex: 0 0 auto;
@@ -265,7 +275,8 @@ button {
    ========================================================================== */
 .hero {
   position: relative;
-  min-height: 100svh;
+  min-height: 100vh;
+  min-height: 100lvh; /* mobil: voller Screen inkl. Bereich hinter der Browser-Leiste */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -591,9 +602,7 @@ button {
 .team {
   background: var(--rot);
   color: var(--dunkel-text);
-  min-height: 100svh;
-  padding: calc(var(--header-h) + clamp(2.5rem, 7vw, 6rem)) var(--rand)
-    clamp(4rem, 8vw, 7rem);
+  padding: clamp(4.5rem, 9vw, 8rem) var(--rand);
 }
 .team__head {
   max-width: 60rem;
@@ -601,9 +610,9 @@ button {
   text-align: center;
 }
 .team__title {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(3rem, 9vw, 8rem);
+  font-family: var(--grotesk); /* Primary */
+  font-weight: 500;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
   line-height: 0.95;
   letter-spacing: -0.03em;
   margin: 0 0 clamp(1rem, 2.5vw, 2rem);
@@ -631,7 +640,7 @@ button {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: #d9d7d3; /* neutrale Platzhalter-Fläche */
+  background: var(--weiss); /* neutrale Platzhalter-Fläche */
   margin-bottom: clamp(1rem, 1.6vw, 1.6rem);
 }
 .team-card__photo img {
@@ -642,23 +651,23 @@ button {
   filter: grayscale(1) contrast(1.02);
 }
 .team-card__name {
-  font-family: var(--serif);
-  font-size: clamp(1.6rem, 2.4vw, 2.6rem);
+  font-family: var(--grotesk); /* Primary: Namen in Helvetica/NHG */
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.2vw, 2.4rem);
   line-height: 1.02;
   letter-spacing: -0.02em;
+  margin: 0;
 }
 .team-card__role {
-  margin-top: 0.35em;
-  font-family: var(--grotesk);
-  font-weight: 700;
-  font-size: clamp(1rem, 1.35vw, 1.3rem);
+  margin: 0.4em 0 0;
+  font-family: var(--serif); /* Secondary */
+  font-size: clamp(1.05rem, 1.45vw, 1.4rem);
   letter-spacing: -0.01em;
 }
 .team-card__focus {
-  margin-top: 0.15em;
-  font-family: var(--grotesk);
-  font-weight: 400;
-  font-size: clamp(1rem, 1.35vw, 1.3rem);
+  margin: 0.1em 0 0;
+  font-family: var(--serif); /* Secondary */
+  font-size: clamp(1.05rem, 1.45vw, 1.4rem);
   letter-spacing: -0.01em;
   opacity: 0.78;
 }

@@ -9,8 +9,8 @@
       content="Neue Welt Agentur ist alles was noch nicht existiert und erschaffen werden darf. Ein Kollektiv, das die Verantwortung hat, die Welt zu formen."
     />
     <meta name="theme-color" content="#ff2c3b" />
-    <link rel="icon" href="assets/svg/favicon.svg?v=20260714" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="assets/svg/favicon.svg?v=20260714" />
+    <link rel="icon" href="assets/svg/favicon.svg?v=20260715" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/svg/favicon.svg?v=20260715" />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
@@ -31,7 +31,7 @@
       href="assets/fonts/eb-garamond-latin.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="css/style.css?v=20260714" />
+    <link rel="stylesheet" href="css/style.css?v=20260715" />
   </head>
   <body>
     <!-- Custom Cursor -->
@@ -68,10 +68,10 @@
           </svg>
         </button>
       </div>
-      <div class="menu-nav">
-        <a class="nav-work" href="#work">Work</a>
-        <a class="nav-manifesto" href="#manifesto">Manifesto</a>
-        <a class="nav-team" href="team.html">Team</a>
+      <div class="menu-scroller" tabindex="-1">
+        <a class="menu-item" href="#work">Work</a>
+        <a class="menu-item" href="#manifesto">Manifesto</a>
+        <a class="menu-item" href="#team">Team</a>
       </div>
       <div class="menu-meta">
         <a href="impressum.html">Impressum</a>
@@ -179,6 +179,46 @@
           </a>
         </div>
       </section>
+
+      <!-- ===================== Team ===================== -->
+      <section class="team" id="team" data-color="dunkel">
+        <div class="team__head">
+          <h2 class="team__title">Team</h2>
+          <p class="team__intro">
+            Creative Directors &amp; Partner der Neue Welt Agentur — Konzept,
+            Talent und Verbindungen unter einem Stern.
+          </p>
+        </div>
+
+        <div class="team__grid">
+          <article class="team-card">
+            <div class="team-card__photo">
+              <img src="assets/img/work-placeholder.jpg" alt="" loading="lazy" />
+            </div>
+            <h3 class="team-card__name">Daryl Kastenholz</h3>
+            <p class="team-card__role">Creative Director &amp; Partner</p>
+            <p class="team-card__focus">Mentoring &amp; Talent</p>
+          </article>
+
+          <article class="team-card">
+            <div class="team-card__photo">
+              <img src="assets/img/work-placeholder.jpg" alt="" loading="lazy" />
+            </div>
+            <h3 class="team-card__name">Marco Pröfrock</h3>
+            <p class="team-card__role">Creative Director &amp; Partner</p>
+            <p class="team-card__focus">Concept &amp; Advertising</p>
+          </article>
+
+          <article class="team-card">
+            <div class="team-card__photo">
+              <img src="assets/img/work-placeholder.jpg" alt="" loading="lazy" />
+            </div>
+            <h3 class="team-card__name">David Bosch</h3>
+            <p class="team-card__role">Creative Director &amp; Partner</p>
+            <p class="team-card__focus">Outreach &amp; Connections</p>
+          </article>
+        </div>
+      </section>
     </main>
 
     <!-- ===================== Footer ===================== -->
@@ -192,7 +232,7 @@
         <nav class="site-footer__links" aria-label="Rechtliches">
           <a href="#manifesto">Manifesto</a>
           <a href="#work">Work</a>
-          <a href="team.html">Team</a>
+          <a href="#team">Team</a>
           <a href="impressum.html">Impressum</a>
           <a href="datenschutz.html">Datenschutz</a>
         </nav>
@@ -200,6 +240,6 @@
       <p class="site-footer__copy">© <span id="year">2026</span> Neue Welt Agentur</p>
     </footer>
 
-    <script src="js/main.js?v=20260714"></script>
+    <script src="js/main.js?v=20260715"></script>
   </body>
 </html>

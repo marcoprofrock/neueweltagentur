@@ -22,6 +22,45 @@
   /* --------------------------------------------------------------------- *
    * Menü-Overlay öffnen / schließen
    * --------------------------------------------------------------------- */
+  /* Scroll-Menü: Eintrag in der Mitte am größten (Grotesk), Rest Garamond */
+  var scroller = overlay ? overlay.querySelector(".menu-scroller") : null;
+  var menuItems = scroller ? scroller.querySelectorAll(".menu-item") : [];
+  var menuRaf = null;
+
+  function menuUpdate() {
+    menuRaf = null;
+    if (!scroller) return;
+    var rect = scroller.getBoundingClientRect();
+    if (rect.height < 1) return;
+    var center = rect.top + rect.height / 2;
+    var best = null;
+    var bestD = Infinity;
+    menuItems.forEach(function (it) {
+      var r = it.getBoundingClientRect();
+      var c = r.top + r.height / 2;
+      var d = Math.abs(c - center);
+      var norm = Math.min(d / (rect.height / 2), 1);
+      it.style.transform = "scale(" + (1 - 0.5 * norm).toFixed(3) + ")";
+      it.style.opacity = (1 - 0.62 * norm).toFixed(3);
+      if (d < bestD) {
+        bestD = d;
+        best = it;
+      }
+    });
+    menuItems.forEach(function (it) {
+      it.classList.toggle("is-center", it === best);
+    });
+  }
+  function menuSchedule() {
+    if (menuRaf === null && window.requestAnimationFrame)
+      menuRaf = window.requestAnimationFrame(menuUpdate);
+    else if (!window.requestAnimationFrame) menuUpdate();
+  }
+  if (scroller) {
+    scroller.addEventListener("scroll", menuSchedule, { passive: true });
+    window.addEventListener("resize", menuSchedule);
+  }
+
   function openMenu() {
     if (!overlay) return;
     overlay.classList.add("is-open");
@@ -29,6 +68,12 @@
     if (toggle && toggle.tagName === "BUTTON")
       toggle.setAttribute("aria-expanded", "true");
     doc.body.style.overflow = "hidden";
+    // Menü mittig ausrichten und Skalierung initialisieren
+    if (scroller) {
+      var mid = menuItems[Math.floor(menuItems.length / 2)];
+      if (mid) mid.scrollIntoView({ block: "center" });
+      menuUpdate();
+    }
   }
 
   function closeMenu() {
@@ -48,7 +93,7 @@
 
   if (overlay) {
     overlay
-      .querySelectorAll(".menu-nav a, .menu-meta a")
+      .querySelectorAll(".menu-scroller a, .menu-meta a")
       .forEach(function (a) {
         a.addEventListener("click", closeMenu);
       });
