@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #20201e;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 4.01px;
+      }
+    </style>
+  </defs>
+  <polygon id="Cursor" class="cls-1" points="57.12 6.88 98.36 244.14 145.69 174.88 229.56 174.97 57.12 6.88"/>
+</svg>
