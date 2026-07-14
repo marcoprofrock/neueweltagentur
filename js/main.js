@@ -510,8 +510,11 @@
       var q = window.pageYOffset / (h * 0.5); // über die erste halbe Hero-Höhe
       if (q < 0) q = 0;
       if (q > 1) q = 1;
+      // fliegt weiter nach oben UND wird grösser, während er ausfadet
+      var y = -q * 300; // Flughöhe
+      var s = 1 + q * 1.6; // wächst bis ~2.6x
       scrollEl.style.transform =
-        "translate(-50%," + (-q * 160).toFixed(1) + "px)";
+        "translate(-50%," + y.toFixed(1) + "px) scale(" + s.toFixed(3) + ")";
       scrollEl.style.opacity = (1 - q).toFixed(3);
     }
     function sched() {
