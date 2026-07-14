@@ -154,6 +154,57 @@
   }
 
   /* --------------------------------------------------------------------- *
+   * Work-Videos: zuverlässig stumm abspielen, sobald im Viewport
+   * (verhindert den nativen Play-Button, wenn Autoplay geblockt wird)
+   * --------------------------------------------------------------------- */
+  (function () {
+    var vids = doc.querySelectorAll(".work-card__video");
+    if (!vids.length) return;
+
+    function play(v) {
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    Array.prototype.forEach.call(vids, function (v) {
+      // muted als Property (nicht nur Attribut) → erlaubt Autoplay überall
+      v.muted = true;
+      v.defaultMuted = true;
+      v.playsInline = true;
+      v.setAttribute("muted", "");
+      v.removeAttribute("controls");
+    });
+
+    if ("IntersectionObserver" in window) {
+      var vio = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) play(e.target);
+            else e.target.pause();
+          });
+        },
+        { threshold: 0.2 }
+      );
+      Array.prototype.forEach.call(vids, function (v) {
+        vio.observe(v);
+      });
+    } else {
+      Array.prototype.forEach.call(vids, play);
+    }
+
+    // Fallback: bei erster Nutzer-Interaktion nachstarten (sehr strikte Policies)
+    var kick = function () {
+      Array.prototype.forEach.call(vids, function (v) {
+        if (v.paused) play(v);
+      });
+      doc.removeEventListener("pointerdown", kick);
+      doc.removeEventListener("touchstart", kick);
+    };
+    doc.addEventListener("pointerdown", kick, { passive: true });
+    doc.addEventListener("touchstart", kick, { passive: true });
+  })();
+
+  /* --------------------------------------------------------------------- *
    * Custom Cursor — rAF-geführt, kein CSS-Transform-Transition (kein Lag)
    * --------------------------------------------------------------------- */
   (function () {
