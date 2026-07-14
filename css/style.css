@@ -728,12 +728,13 @@ button {
   font-size: clamp(1.05rem, 1.45vw, 1.4rem);
   letter-spacing: -0.01em;
 }
-.team-card__focus {
-  margin: 0.1em 0 0;
+.team-card__bio {
+  margin: clamp(0.75rem, 1.4vw, 1.1rem) 0 0;
   font-family: var(--serif); /* Secondary */
-  font-size: clamp(1.05rem, 1.45vw, 1.4rem);
-  letter-spacing: -0.01em;
-  opacity: 0.78;
+  font-size: clamp(1rem, 1.15vw, 1.15rem);
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  opacity: 0.82;
 }
 
 /* ==========================================================================
@@ -784,21 +785,20 @@ button {
 .location {
   background: var(--weiss);
   color: var(--schwarz);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: clamp(2rem, 5vw, 5rem);
-  padding: clamp(4.5rem, 9vw, 8rem) var(--rand);
+  padding: clamp(4.5rem, 9vw, 8rem) 0 0; /* Karte laeuft randlos bis zur Unterkante */
+}
+.location__info {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--rand) clamp(2.5rem, 5vw, 4rem);
 }
 .location__map {
   display: block;
   position: relative;
   width: 100%;
-  max-width: 34rem;
-  margin-inline: auto;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%; /* Kreis als Schnittmaske — erinnert an den Kompass */
+  aspect-ratio: 3 / 1; /* breites Band ueber die volle Seitenbreite */
   overflow: hidden;
+  background: var(--schwarz);
 }
 .location__karte {
   width: 100%;
@@ -807,12 +807,7 @@ button {
   transition: transform 0.9s var(--ease);
 }
 .location__map:hover .location__karte {
-  transform: scale(1.04);
-}
-.location__info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  transform: scale(1.03);
 }
 .location__label {
   font-family: var(--serif);
