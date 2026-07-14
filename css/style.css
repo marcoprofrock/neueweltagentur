@@ -1072,14 +1072,46 @@ html:not(.nwa-unlocked) body {
   background: var(--schwarz);
   color: var(--weiss);
 }
-/* Intro / Kopf */
+/* Intro / Kopf — mit Video-Header (OACE-Logo-Animation) im Hintergrund */
 .project__intro {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--schwarz);
   color: var(--weiss);
   padding: calc(var(--header-h) + clamp(3.5rem, 9vw, 8rem)) var(--rand)
     clamp(3.5rem, 8vw, 7rem);
 }
+/* Bewegtbild-Header: liegt hinter dem Intro-Text */
+.project__intro-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* ganz leichte Abdunklung für die Lesbarkeit des Textes */
+.project__intro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.3);
+}
+.project__intro-bg::-webkit-media-controls,
+.project__intro-bg::-webkit-media-controls-enclosure,
+.project__intro-bg::-webkit-media-controls-panel,
+.project__intro-bg::-webkit-media-controls-start-playback-button,
+.project__intro-bg::-webkit-media-controls-play-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 .project__intro-inner {
+  position: relative;
+  z-index: 1;
   max-width: 68rem;
   margin: 0 auto;
 }

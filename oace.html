@@ -32,7 +32,7 @@
     <meta property="og:locale" content="de_DE" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="stylesheet" href="css/style.css?v=20260817b" />
+    <link rel="stylesheet" href="css/style.css?v=20260817c" />
   </head>
   <body>
     <!-- Passwort-Gate (einfacher Zugangsschutz) -->
@@ -110,8 +110,18 @@
 
     <!-- ===================== Projekt: OACE ===================== -->
     <main class="project">
-      <!-- Intro / Kopf -->
+      <!-- Intro / Kopf — OACE-Logo-Animation als Bewegtbild-Header -->
       <section class="project__intro" data-color="weiss">
+        <video
+          class="project__intro-bg"
+          src="assets/img/work/oace/video-2.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-hidden="true"
+        ></video>
         <div class="project__intro-inner">
           <p class="project__eyebrow">Work — Brand Design</p>
           <h1 class="project__title">OACE</h1>
@@ -150,19 +160,6 @@
           „Klare Designsprache, komplimentiert mit außergewöhnlicher Bildsprache
           erzeugen die perfekte Symbiose in der visuellen Kommunikation.“
         </blockquote>
-      </section>
-
-      <!-- Video 1 (volle Breite, 16:9) -->
-      <section class="project__media project__video" data-color="dunkel">
-        <video
-          src="assets/img/work/oace/video-2.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          aria-label="OACE — Bewegtbild, Markenauftritt"
-        ></video>
       </section>
 
       <!-- Showcase 2 + 3 (Paar) -->
@@ -214,17 +211,17 @@
           loading="lazy"
         />
         <img
-          src="assets/img/work/oace/hangtag.webp"
-          alt="OACE — Hangtag"
-          width="2250"
-          height="2250"
-          loading="lazy"
-        />
-        <img
           src="assets/img/work/oace/sign.webp"
           alt="OACE — Store-Beschilderung"
           width="2500"
           height="1406"
+          loading="lazy"
+        />
+        <img
+          src="assets/img/work/oace/hangtag.webp"
+          alt="OACE — Hangtag"
+          width="2250"
+          height="2250"
           loading="lazy"
         />
       </section>
@@ -286,6 +283,6 @@
       <p class="site-footer__copy">© <span id="year">2026</span> Neue Welt Agentur</p>
     </footer>
 
-    <script src="js/main.js?v=20260817b"></script>
+    <script src="js/main.js?v=20260817c"></script>
   </body>
 </html>
