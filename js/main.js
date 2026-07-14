@@ -6,8 +6,10 @@
   var root = doc.documentElement;
   var header = doc.querySelector(".site-header");
   var overlay = doc.getElementById("menu");
-  var toggle = doc.querySelector(".menu-toggle");
   var closeBtn = doc.querySelector(".menu-close");
+  // Menü wird auf der Landing-Page über den Kompass oben rechts geöffnet
+  var opener = doc.querySelector(".header-kompass");
+  var menuKompass = overlay ? overlay.querySelector(".menu-kompass") : null;
 
   var reduceMotion =
     window.matchMedia &&
@@ -26,6 +28,8 @@
   var scroller = overlay ? overlay.querySelector(".menu-scroller") : null;
   var menuItems = scroller ? scroller.querySelectorAll(".menu-item") : [];
   var menuRaf = null;
+  var kompassDeg = 0;
+  var lastScrollTop = 0;
 
   function menuUpdate() {
     menuRaf = null;
@@ -40,7 +44,7 @@
       var c = r.top + r.height / 2;
       var d = Math.abs(c - center);
       var norm = Math.min(d / (rect.height / 2), 1);
-      it.style.transform = "scale(" + (1 - 0.5 * norm).toFixed(3) + ")";
+      it.style.transform = "scale(" + (1 - 0.4 * norm).toFixed(3) + ")";
       it.style.opacity = (1 - 0.62 * norm).toFixed(3);
       if (d < bestD) {
         bestD = d;
@@ -50,6 +54,18 @@
     menuItems.forEach(function (it) {
       it.classList.toggle("is-center", it === best);
     });
+
+    // Kompass auf die Mitte setzen + entsprechend der Scroll-Richtung drehen
+    if (menuKompass) {
+      var st = scroller.scrollTop;
+      var delta = st - lastScrollTop;
+      lastScrollTop = st;
+      // runter → rechts rum (im Uhrzeigersinn), hoch → links rum
+      kompassDeg += delta * 0.6;
+      menuKompass.style.top = Math.round(center) + "px";
+      menuKompass.style.transform =
+        "translateY(-50%) rotate(" + kompassDeg.toFixed(1) + "deg)";
+    }
   }
   function menuSchedule() {
     if (menuRaf === null && window.requestAnimationFrame)
@@ -65,13 +81,14 @@
     if (!overlay) return;
     overlay.classList.add("is-open");
     overlay.setAttribute("aria-hidden", "false");
-    if (toggle && toggle.tagName === "BUTTON")
-      toggle.setAttribute("aria-expanded", "true");
+    if (opener && opener.tagName === "BUTTON")
+      opener.setAttribute("aria-expanded", "true");
     doc.body.style.overflow = "hidden";
     // Menü mittig ausrichten und Skalierung initialisieren
     if (scroller) {
       var mid = menuItems[Math.floor(menuItems.length / 2)];
       if (mid) mid.scrollIntoView({ block: "center" });
+      lastScrollTop = scroller.scrollTop;
       menuUpdate();
     }
   }
@@ -80,15 +97,15 @@
     if (!overlay) return;
     overlay.classList.remove("is-open");
     overlay.setAttribute("aria-hidden", "true");
-    if (toggle && toggle.tagName === "BUTTON")
-      toggle.setAttribute("aria-expanded", "false");
+    if (opener && opener.tagName === "BUTTON")
+      opener.setAttribute("aria-expanded", "false");
     doc.body.style.overflow = "";
   }
 
-  // Menü-Button öffnet nur, wenn er wirklich ein Button ist (Startseite);
-  // auf Unterseiten ist ".menu-toggle" ein Zurück-Link.
-  if (toggle && toggle.tagName === "BUTTON")
-    toggle.addEventListener("click", openMenu);
+  // Öffner ist der Kompass oben rechts (nur auf der Landing-Page ein Button;
+  // auf Unterseiten ein Link zur Startseite → dann kein Menü).
+  if (opener && opener.tagName === "BUTTON")
+    opener.addEventListener("click", openMenu);
   if (closeBtn) closeBtn.addEventListener("click", closeMenu);
 
   if (overlay) {

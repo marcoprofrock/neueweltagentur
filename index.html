@@ -9,8 +9,8 @@
       content="Neue Welt Agentur ist alles was noch nicht existiert und erschaffen werden darf. Ein Kollektiv, das die Verantwortung hat, die Welt zu formen."
     />
     <meta name="theme-color" content="#ff2c3b" />
-    <link rel="icon" href="assets/svg/favicon.svg?v=20260716" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="assets/svg/favicon.svg?v=20260716" />
+    <link rel="icon" href="assets/svg/favicon.svg?v=20260717" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/svg/favicon.svg?v=20260717" />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
@@ -31,7 +31,7 @@
       href="assets/fonts/eb-garamond-latin.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="css/style.css?v=20260716" />
+    <link rel="stylesheet" href="css/style.css?v=20260717" />
   </head>
   <body>
     <!-- Custom Cursor -->
@@ -39,17 +39,16 @@
 
     <!-- ===================== Header ===================== -->
     <header class="site-header" data-color="rot">
+      <a class="menu-toggle header-home" href="#top">Home</a>
       <button
-        class="menu-toggle"
+        class="header-kompass"
         type="button"
         aria-expanded="false"
         aria-controls="menu"
+        aria-label="Menü öffnen"
       >
-        Menü
-      </button>
-      <a class="header-kompass" href="#top" aria-label="Nach oben">
         <span class="mask mask--kompass" role="img" aria-hidden="true"></span>
-      </a>
+      </button>
     </header>
 
     <!-- ===================== Menü-Overlay ===================== -->
@@ -68,6 +67,7 @@
           </svg>
         </button>
       </div>
+      <span class="menu-kompass mask mask--kompass" aria-hidden="true"></span>
       <div class="menu-scroller" tabindex="-1">
         <a class="menu-item" href="#work">Work</a>
         <a class="menu-item" href="#manifesto">Manifesto</a>
@@ -129,7 +129,7 @@
       </section>
 
       <!-- ===================== Work ===================== -->
-      <section class="work" id="work" data-color="rot">
+      <section class="work" id="work" data-color="weiss">
         <div class="work__head">
           <h2 class="work__title">Work</h2>
           <span class="work__count">Selected — 2026</span>
@@ -201,7 +201,7 @@
     </main>
 
     <!-- ===================== Footer ===================== -->
-    <footer class="site-footer" data-color="rot">
+    <footer class="site-footer" data-color="weiss">
       <div class="site-footer__grid">
         <span
           class="site-footer__mark mask mask--wortmarke"
@@ -219,6 +219,6 @@
       <p class="site-footer__copy">© <span id="year">2026</span> Neue Welt Agentur</p>
     </footer>
 
-    <script src="js/main.js?v=20260716"></script>
+    <script src="js/main.js?v=20260717"></script>
   </body>
 </html>

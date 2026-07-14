@@ -41,6 +41,7 @@
 
   --rand: clamp(1.375rem, 2.14vw, 2.5625rem); /* 22px … 41px Seitenrand */
   --header-h: clamp(3.75rem, 7vw, 5.75rem);
+  --menu-indent: clamp(3.5rem, 8vw, 7rem); /* Platz für den Menü-Kompass */
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -142,6 +143,9 @@ button {
 .site-header[data-color="dunkel"] {
   color: var(--dunkel-text);
 }
+.site-header[data-color="weiss"] {
+  color: var(--weiss);
+}
 .site-header > * {
   pointer-events: auto;
 }
@@ -238,23 +242,36 @@ button {
   flex: 0 0 auto;
   scroll-snap-align: center;
   display: block;
-  padding: clamp(0.25rem, 1vh, 0.75rem) 0;
+  /* eng gesetzt: Zeilen berühren sich fast */
+  padding: 0 0 0 var(--menu-indent);
   font-family: var(--serif); /* Secondary für die Ränder */
   font-size: clamp(3rem, 9.5vw, 11rem);
-  line-height: 1.05;
+  line-height: 0.9;
   letter-spacing: -0.03em;
   color: var(--schwarz);
   text-align: left;
   transform-origin: left center;
   will-change: transform, opacity;
-  transition: color 0.25s ease;
 }
 .menu-item.is-center {
-  font-family: var(--grotesk); /* Primary in der Mitte */
+  font-family: var(--grotesk); /* Primary nur in der Mitte, Farbe bleibt */
   font-weight: 500;
 }
-.menu-item:hover {
-  color: var(--weiss);
+
+/* Kompass links neben dem mittigen (ausgewählten) Eintrag */
+.menu-kompass {
+  position: fixed; /* Y wird per JS auf die Scroller-Mitte gesetzt */
+  left: var(--rand);
+  top: 50%;
+  width: clamp(2rem, 4.2vw, 3.75rem);
+  color: var(--schwarz);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.menu-overlay.is-open .menu-kompass {
+  opacity: 1;
 }
 .menu-meta {
   flex: 0 0 auto;
@@ -419,8 +436,8 @@ button {
    Work
    ========================================================================== */
 .work {
-  background: var(--dunkel);
-  color: var(--rot);
+  background: var(--schwarz);
+  color: var(--weiss);
   padding: clamp(4.5rem, 9vw, 8rem) var(--rand);
 }
 .work__head {
@@ -429,7 +446,7 @@ button {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: clamp(2rem, 4vw, 3.5rem);
-  border-bottom: 1px solid rgba(255, 44, 59, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
   padding-bottom: clamp(1rem, 2vw, 1.75rem);
 }
 .work__title {
@@ -486,7 +503,7 @@ button {
   align-items: flex-end;
   justify-content: space-between;
   gap: 0.75rem;
-  color: var(--rot);
+  color: var(--weiss);
 }
 .work-card__name {
   font-size: clamp(1.25rem, 1.7vw, 1.9rem);
@@ -504,10 +521,10 @@ button {
    Footer
    ========================================================================== */
 .site-footer {
-  background: var(--dunkel);
-  color: var(--rot);
+  background: var(--schwarz);
+  color: var(--weiss);
   padding: clamp(3rem, 6vw, 5rem) var(--rand) clamp(2rem, 4vw, 3rem);
-  border-top: 1px solid rgba(255, 44, 59, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
 }
 .site-footer__grid {
   display: flex;
@@ -518,7 +535,7 @@ button {
 }
 .site-footer__mark {
   width: min(60vw, 340px);
-  color: var(--rot);
+  color: var(--weiss);
 }
 .site-footer__links {
   display: flex;
@@ -640,7 +657,9 @@ button {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: var(--weiss); /* neutrale Platzhalter-Fläche */
+  background: var(--weiss);
+  /* leichter weißer „Blitzer"-Rand um die Portraits */
+  border: clamp(2px, 0.3vw, 3px) solid var(--weiss);
   margin-bottom: clamp(1rem, 1.6vw, 1.6rem);
 }
 .team-card__photo img {
