@@ -782,21 +782,23 @@ button {
    Standort (stilisierte Karte, schwarz mit weissen Strassen, Stern-Marker)
    ========================================================================== */
 .location {
-  background: var(--schwarz);
-  color: var(--weiss);
+  background: var(--weiss);
+  color: var(--schwarz);
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  align-items: stretch;
-  gap: clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
   padding: clamp(4.5rem, 9vw, 8rem) var(--rand);
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
 }
 .location__map {
   display: block;
   position: relative;
+  width: 100%;
+  max-width: 34rem;
+  margin-inline: auto;
   aspect-ratio: 1 / 1;
+  border-radius: 50%; /* Kreis als Schnittmaske — erinnert an den Kompass */
   overflow: hidden;
-  background: var(--schwarz);
 }
 .location__karte {
   width: 100%;
@@ -814,10 +816,9 @@ button {
 }
 .location__label {
   font-family: var(--serif);
-  font-size: clamp(1rem, 1.4vw, 1.4rem);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  opacity: 0.65;
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+  letter-spacing: -0.01em;
+  opacity: 0.6;
   margin: 0 0 clamp(1rem, 2vw, 1.75rem);
 }
 .location__city {
@@ -843,7 +844,7 @@ button {
   font-weight: 500;
   font-size: clamp(1.05rem, 1.4vw, 1.4rem);
   letter-spacing: -0.01em;
-  color: var(--weiss);
+  color: var(--schwarz);
   border-bottom: 1px solid currentColor;
   padding-bottom: 0.15em;
   transition: color 0.25s ease;
