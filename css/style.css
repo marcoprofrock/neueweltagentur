@@ -1066,6 +1066,171 @@ html:not(.nwa-unlocked) body {
 }
 
 /* ==========================================================================
+   Projekt-Seite (Case Study, z. B. OACE)
+   ========================================================================== */
+.project {
+  background: var(--schwarz);
+  color: var(--weiss);
+}
+/* Intro / Kopf */
+.project__intro {
+  background: var(--schwarz);
+  color: var(--weiss);
+  padding: calc(var(--header-h) + clamp(3.5rem, 9vw, 8rem)) var(--rand)
+    clamp(3.5rem, 8vw, 7rem);
+}
+.project__intro-inner {
+  max-width: 68rem;
+  margin: 0 auto;
+}
+.project__eyebrow {
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.4vw, 1.4rem);
+  letter-spacing: 0.01em;
+  opacity: 0.6;
+  margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
+}
+.project__title {
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: clamp(3.5rem, 12vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+.project__subtitle {
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2vw, 1.9rem);
+  letter-spacing: -0.01em;
+  opacity: 0.7;
+  margin: clamp(0.75rem, 1.5vw, 1.25rem) 0 0;
+}
+.project__lead {
+  max-width: 42rem;
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 1.9vw, 1.7rem);
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  opacity: 0.9;
+}
+/* Bild-Sektionen */
+.project__media {
+  background: var(--schwarz);
+  padding: 0;
+}
+.project__media img,
+.project__media video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* Video-Block: 16:9, autoplay/muted/loop wie die Work-Cards */
+.project__video {
+  background: var(--schwarz);
+}
+.project__video video {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+/* nativen Play-Button/Overlay unterdrücken (iOS + Safari) */
+.project__video video::-webkit-media-controls,
+.project__video video::-webkit-media-controls-enclosure,
+.project__video video::-webkit-media-controls-panel,
+.project__video video::-webkit-media-controls-overlay-enclosure,
+.project__video video::-webkit-media-controls-start-playback-button,
+.project__video video::-webkit-media-controls-play-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* volle Breite, randlos */
+.project__figure--full img {
+  width: 100%;
+}
+/* Zweispaltiges Bildraster */
+.project__pair,
+.project__trio {
+  display: grid;
+  gap: clamp(0.5rem, 1.2vw, 1.25rem);
+  background: var(--schwarz);
+}
+.project__pair {
+  grid-template-columns: repeat(2, 1fr);
+}
+.project__trio {
+  grid-template-columns: repeat(3, 1fr);
+  padding: clamp(0.5rem, 1.2vw, 1.25rem) var(--rand);
+}
+.project__pair img,
+.project__trio img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+/* Zitat-Sektion (rot, wie Team/Manifesto-Flächen) */
+.project__quote {
+  background: var(--rot);
+  color: var(--dunkel-text);
+  padding: clamp(5rem, 11vw, 9rem) var(--rand);
+  text-align: center;
+}
+.project__quote blockquote {
+  max-width: 26ch;
+  margin: 0 auto;
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 4.2vw, 4.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+/* Abschluss-Navigation (nächstes Projekt / zurück) */
+.project__nav {
+  background: var(--schwarz);
+  color: var(--weiss);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: clamp(3.5rem, 8vw, 7rem) var(--rand);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+.project__nav-label {
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.4vw, 1.4rem);
+  opacity: 0.6;
+  margin: 0 0 0.35em;
+}
+.project__nav-link {
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  transition: color 0.25s ease;
+}
+.project__nav-link:hover {
+  color: var(--rot);
+}
+.project__back {
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.4vw, 1.4rem);
+  letter-spacing: -0.01em;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.15em;
+  align-self: flex-end;
+  transition: color 0.25s ease;
+}
+.project__back:hover {
+  color: var(--rot);
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 @media (max-width: 768px) {
@@ -1102,6 +1267,14 @@ html:not(.nwa-unlocked) body {
   }
   .location__link {
     align-self: center;
+  }
+  .project__pair,
+  .project__trio {
+    grid-template-columns: 1fr;
+  }
+  .project__trio {
+    padding-left: var(--rand);
+    padding-right: var(--rand);
   }
 }
 
