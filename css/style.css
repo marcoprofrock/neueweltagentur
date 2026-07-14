@@ -813,8 +813,7 @@ button {
 .contact__label {
   font-family: var(--serif);
   font-size: clamp(1rem, 1.4vw, 1.4rem);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
   opacity: 0.65;
   margin: 0 0 clamp(1.75rem, 3.5vw, 3rem);
 }
@@ -849,14 +848,16 @@ button {
 }
 /* Schwarzer Trenner nach oben: der Milan spannt sich rot ueber die ganze Breite */
 .location__divider {
-  background: var(--schwarz);
-  padding: clamp(2.5rem, 5vw, 4.5rem) 0; /* randlos: Milan spannt ueber die ganze Breite */
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
+  /* Farbschnitt genau auf Hoehe der Fluegelspitzen (43.65% des Milans):
+     darueber schwarz, darunter weiss — der Milan sitzt auf beiden Flaechen. */
+  background: linear-gradient(
+    var(--schwarz) 0 43.65%,
+    var(--weiss) 43.65% 100%
+  );
 }
 .location__milan {
-  width: 100%;
+  display: block;
+  width: 100%; /* Fluegelspitzen beruehren links und rechts den Rand */
   color: var(--rot);
 }
 .location__info {
