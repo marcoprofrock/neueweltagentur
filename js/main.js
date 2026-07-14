@@ -24,6 +24,41 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* --------------------------------------------------------------------- *
+   * Passwort-Gate (einfacher Zugangsschutz, clientseitig)
+   * --------------------------------------------------------------------- */
+  (function () {
+    var gate = doc.getElementById("nwa-gate");
+    if (!gate || root.classList.contains("nwa-unlocked")) return;
+    var form = doc.getElementById("nwa-gate-form");
+    var input = doc.getElementById("nwa-pass");
+    var error = doc.getElementById("nwa-gate-error");
+    var PASS = "dirtysouth";
+
+    if (input) input.focus();
+
+    if (form)
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var val = (input && input.value) || "";
+        if (val === PASS) {
+          try {
+            localStorage.setItem("nwa_unlocked", PASS);
+          } catch (e2) {}
+          root.classList.add("nwa-unlocked");
+        } else {
+          if (error) error.hidden = false;
+          gate.classList.remove("is-wrong");
+          void gate.offsetWidth; // Reflow → Shake erneut auslösen
+          gate.classList.add("is-wrong");
+          if (input) {
+            input.value = "";
+            input.focus();
+          }
+        }
+      });
+  })();
+
+  /* --------------------------------------------------------------------- *
    * Menü-Overlay öffnen / schließen
    * --------------------------------------------------------------------- */
   /* Scroll-Menü: Eintrag in der Mitte am größten (Grotesk), Rest Garamond */
@@ -458,5 +493,32 @@
     if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(evaluate);
 
     evaluate();
+  })();
+
+  /* --------------------------------------------------------------------- *
+   * Milan (Scroll-Hinweis): beim Runterscrollen nach oben fliegen + ausfaden
+   * --------------------------------------------------------------------- */
+  (function () {
+    var scrollEl = doc.querySelector(".hero__scroll");
+    var hero = doc.querySelector(".hero");
+    if (!scrollEl || !hero) return;
+    var raf = null;
+
+    function upd() {
+      raf = null;
+      var h = hero.offsetHeight || window.innerHeight || 1;
+      var q = window.pageYOffset / (h * 0.5); // über die erste halbe Hero-Höhe
+      if (q < 0) q = 0;
+      if (q > 1) q = 1;
+      scrollEl.style.transform =
+        "translate(-50%," + (-q * 160).toFixed(1) + "px)";
+      scrollEl.style.opacity = (1 - q).toFixed(3);
+    }
+    function sched() {
+      if (raf === null) raf = window.requestAnimationFrame(upd);
+    }
+    window.addEventListener("scroll", sched, { passive: true });
+    window.addEventListener("resize", sched);
+    upd();
   })();
 })();

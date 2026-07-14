@@ -204,6 +204,8 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
+  /* ein Drittel der Seite weiter nach links */
+  margin-right: 33.333vw;
   font-family: var(--serif);
   font-size: clamp(1.0625rem, 1.55vw, 1.625rem);
   letter-spacing: -0.02em;
@@ -369,12 +371,18 @@ button {
   left: 50%;
   bottom: clamp(1.5rem, 3.5vw, 2.75rem);
   width: clamp(3.5rem, 7vw, 6rem);
+  transform: translateX(-50%); /* Basis; Fly-up + Fade per JS beim Scrollen */
+  will-change: transform, opacity;
+}
+.hero__scroll-icon {
+  display: block;
+  width: 100%;
   color: var(--rot);
   animation: floaty 2.4s ease-in-out infinite;
 }
 @keyframes floaty {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 9px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(9px); }
 }
 
 /* ==========================================================================
@@ -507,14 +515,18 @@ button {
 .work-card:hover .work-card__video {
   transform: scale(1.05);
 }
-/* nativen Play-Button/Overlay (v. a. iOS/Safari) unterdrücken */
+/* nativen Play-Button/Overlay (iOS + Desktop-Safari) unterdrücken */
 .work-card__video::-webkit-media-controls,
+.work-card__video::-webkit-media-controls-enclosure,
+.work-card__video::-webkit-media-controls-panel,
+.work-card__video::-webkit-media-controls-overlay-enclosure,
+.work-card__video::-webkit-media-controls-overlay-play-button,
 .work-card__video::-webkit-media-controls-start-playback-button,
-.work-card__video::-webkit-media-controls-play-button,
-.work-card__video::-webkit-media-controls-panel {
+.work-card__video::-webkit-media-controls-play-button {
   display: none !important;
-  -webkit-appearance: none;
-  opacity: 0;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 .work-card::after {
   content: "";
@@ -722,6 +734,134 @@ button {
   font-size: clamp(1.05rem, 1.45vw, 1.4rem);
   letter-spacing: -0.01em;
   opacity: 0.78;
+}
+
+/* ==========================================================================
+   Contact
+   ========================================================================== */
+.contact {
+  background: var(--schwarz);
+  color: var(--weiss);
+  padding: clamp(5rem, 12vw, 10rem) var(--rand);
+  text-align: center;
+}
+.contact__inner {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+.contact__label {
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.4vw, 1.4rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.65;
+  margin: 0 0 clamp(1.75rem, 3.5vw, 3rem);
+}
+.contact__mail {
+  display: inline-block;
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 5.5vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--weiss);
+  word-break: break-word;
+  transition: color 0.25s ease;
+}
+.contact__mail:hover {
+  color: var(--rot);
+}
+.contact__note {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+  opacity: 0.65;
+  margin: clamp(1.75rem, 3.5vw, 3rem) 0 0;
+}
+
+/* ==========================================================================
+   Passwort-Gate (einfacher Zugangsschutz)
+   ========================================================================== */
+.nwa-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--rot);
+  color: var(--schwarz);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--rand);
+}
+.nwa-unlocked .nwa-gate {
+  display: none;
+}
+html:not(.nwa-unlocked) body {
+  overflow: hidden;
+}
+.nwa-gate__form {
+  width: min(90vw, 30rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  text-align: center;
+}
+.nwa-gate__mark {
+  width: clamp(2.75rem, 6vw, 4rem);
+  color: var(--schwarz);
+  margin-bottom: 0.5rem;
+}
+.nwa-gate__label {
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.nwa-gate__input {
+  width: 100%;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 0.75em 1em;
+  color: var(--schwarz);
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  border-radius: 0;
+  outline: none;
+}
+.nwa-gate__input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+.nwa-gate__input:focus {
+  border-color: var(--schwarz);
+}
+.nwa-gate__btn {
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  padding: 0.75em 2.25em;
+  color: var(--rot);
+  background: var(--schwarz);
+  cursor: pointer;
+}
+.nwa-gate__btn:hover {
+  opacity: 0.85;
+}
+.nwa-gate__error {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--schwarz);
+}
+.nwa-gate.is-wrong .nwa-gate__form {
+  animation: gate-shake 0.35s ease;
+}
+@keyframes gate-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
 }
 
 /* ==========================================================================

@@ -9,8 +9,18 @@
       content="Neue Welt Agentur ist alles was noch nicht existiert und erschaffen werden darf. Ein Kollektiv, das die Verantwortung hat, die Welt zu formen."
     />
     <meta name="theme-color" content="#ff2c3b" />
-    <link rel="icon" href="assets/svg/favicon.svg?v=20260721" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="assets/svg/favicon.svg?v=20260721" />
+    <meta name="robots" content="noindex, nofollow" />
+    <script>
+      /* Einfacher Passwort-Gate: schon freigeschaltet? -> Klasse setzen (kein FOUC) */
+      (function () {
+        try {
+          if (localStorage.getItem("nwa_unlocked") === "dirtysouth")
+            document.documentElement.classList.add("nwa-unlocked");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="icon" href="assets/svg/favicon.svg?v=20260722" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/svg/favicon.svg?v=20260722" />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
@@ -31,9 +41,32 @@
       href="assets/fonts/eb-garamond-latin.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="css/style.css?v=20260721" />
+    <link rel="stylesheet" href="css/style.css?v=20260722" />
   </head>
   <body>
+    <!-- Passwort-Gate (einfacher Zugangsschutz) -->
+    <div class="nwa-gate" id="nwa-gate">
+      <form class="nwa-gate__form" id="nwa-gate-form">
+        <span class="nwa-gate__mark mask mask--kompass" aria-hidden="true"></span>
+        <label class="nwa-gate__label" for="nwa-pass">Neue Welt Agentur</label>
+        <input
+          class="nwa-gate__input"
+          id="nwa-pass"
+          type="password"
+          placeholder="Passwort"
+          aria-label="Passwort"
+          autocomplete="off"
+          autocapitalize="off"
+          autocorrect="off"
+          spellcheck="false"
+        />
+        <button class="nwa-gate__btn" type="submit">Eintreten</button>
+        <p class="nwa-gate__error" id="nwa-gate-error" role="alert" hidden>
+          Falsches Passwort
+        </p>
+      </form>
+    </div>
+
     <!-- Custom Cursor -->
     <div class="cursor" aria-hidden="true"></div>
 
@@ -75,6 +108,7 @@
         <a class="menu-item" href="#work">Work</a>
         <a class="menu-item" href="#manifesto">Manifesto</a>
         <a class="menu-item" href="#team">Team</a>
+        <a class="menu-item" href="#contact">Contact</a>
       </div>
       <div class="menu-meta">
         <a href="impressum.html">Impressum</a>
@@ -112,7 +146,9 @@
             aria-label="Neue Welt Agentur"
           ></span>
         </div>
-        <span class="hero__scroll mask mask--milan" aria-hidden="true"></span>
+        <span class="hero__scroll" aria-hidden="true">
+          <span class="hero__scroll-icon mask mask--milan"></span>
+        </span>
       </section>
 
       <!-- ===================== Manifesto ===================== -->
@@ -211,6 +247,15 @@
           </article>
         </div>
       </section>
+
+      <!-- ===================== Contact ===================== -->
+      <section class="contact" id="contact" data-color="weiss">
+        <div class="contact__inner">
+          <p class="contact__label">Contact</p>
+          <a class="contact__mail" href="mailto:hello@neue-welt-agentur.de">hello@neue-welt-agentur.de</a>
+          <p class="contact__note">Neue Welt Agentur · Stuttgart</p>
+        </div>
+      </section>
     </main>
 
     <!-- ===================== Footer ===================== -->
@@ -225,6 +270,7 @@
           <a href="#manifesto">Manifesto</a>
           <a href="#work">Work</a>
           <a href="#team">Team</a>
+          <a href="#contact">Contact</a>
           <a href="impressum.html">Impressum</a>
           <a href="datenschutz.html">Datenschutz</a>
         </nav>
@@ -232,6 +278,6 @@
       <p class="site-footer__copy">© <span id="year">2026</span> Neue Welt Agentur</p>
     </footer>
 
-    <script src="js/main.js?v=20260721"></script>
+    <script src="js/main.js?v=20260722"></script>
   </body>
 </html>

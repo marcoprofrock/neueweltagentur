@@ -4,12 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Impressum — Neue Welt Agentur</title>
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#ff2c3b" />
-    <link rel="icon" href="assets/svg/favicon.svg?v=20260721" type="image/svg+xml" />
-    <link rel="stylesheet" href="css/style.css?v=20260721" />
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem("nwa_unlocked") === "dirtysouth")
+            document.documentElement.classList.add("nwa-unlocked");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="icon" href="assets/svg/favicon.svg?v=20260722" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/style.css?v=20260722" />
   </head>
   <body>
+    <!-- Passwort-Gate -->
+    <div class="nwa-gate" id="nwa-gate">
+      <form class="nwa-gate__form" id="nwa-gate-form">
+        <span class="nwa-gate__mark mask mask--kompass" aria-hidden="true"></span>
+        <label class="nwa-gate__label" for="nwa-pass">Neue Welt Agentur</label>
+        <input
+          class="nwa-gate__input"
+          id="nwa-pass"
+          type="password"
+          placeholder="Passwort"
+          aria-label="Passwort"
+          autocomplete="off"
+          autocapitalize="off"
+          autocorrect="off"
+          spellcheck="false"
+        />
+        <button class="nwa-gate__btn" type="submit">Eintreten</button>
+        <p class="nwa-gate__error" id="nwa-gate-error" role="alert" hidden>
+          Falsches Passwort
+        </p>
+      </form>
+    </div>
+
     <div class="cursor" aria-hidden="true"></div>
 
     <header class="site-header" data-color="dunkel">
@@ -52,6 +83,6 @@
       </div>
     </main>
 
-    <script src="js/main.js?v=20260721"></script>
+    <script src="js/main.js?v=20260722"></script>
   </body>
 </html>
