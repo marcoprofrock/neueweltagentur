@@ -193,7 +193,9 @@
    * (verhindert den nativen Play-Button, wenn Autoplay geblockt wird)
    * --------------------------------------------------------------------- */
   (function () {
-    var vids = doc.querySelectorAll(".work-card__video");
+    var vids = doc.querySelectorAll(
+      ".work-card__video, .project__video video, .project__intro-bg"
+    );
     if (!vids.length) return;
 
     function play(v) {
