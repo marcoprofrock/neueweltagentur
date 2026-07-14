@@ -162,6 +162,7 @@
     if (!vids.length) return;
 
     function play(v) {
+      if (!v._want) return;
       var p = v.play();
       if (p && p.catch) p.catch(function () {});
     }
@@ -173,29 +174,49 @@
       v.playsInline = true;
       v.setAttribute("muted", "");
       v.removeAttribute("controls");
+      v._want = false;
+      // Wird das Video vom Browser (Stromsparen o. ä.) ungewollt pausiert,
+      // während es im Bild sein soll → sofort wieder starten.
+      v.addEventListener("pause", function () {
+        if (v._want) window.requestAnimationFrame(function () { play(v); });
+      });
+      v.addEventListener("canplay", function () { play(v); });
     });
 
     if ("IntersectionObserver" in window) {
       var vio = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (e) {
-            if (e.isIntersecting) play(e.target);
-            else e.target.pause();
+            var v = e.target;
+            v._want = e.isIntersecting;
+            if (e.isIntersecting) play(v);
+            else v.pause();
           });
         },
-        { threshold: 0.2 }
+        { threshold: 0.15 }
       );
       Array.prototype.forEach.call(vids, function (v) {
         vio.observe(v);
       });
     } else {
-      Array.prototype.forEach.call(vids, play);
+      Array.prototype.forEach.call(vids, function (v) {
+        v._want = true;
+        play(v);
+      });
     }
+
+    // Falls der Tab wieder aktiv wird, sichtbare Videos weiterlaufen lassen
+    doc.addEventListener("visibilitychange", function () {
+      if (!doc.hidden)
+        Array.prototype.forEach.call(vids, function (v) {
+          if (v._want) play(v);
+        });
+    });
 
     // Fallback: bei erster Nutzer-Interaktion nachstarten (sehr strikte Policies)
     var kick = function () {
       Array.prototype.forEach.call(vids, function (v) {
-        if (v.paused) play(v);
+        if (v._want && v.paused) play(v);
       });
       doc.removeEventListener("pointerdown", kick);
       doc.removeEventListener("touchstart", kick);
