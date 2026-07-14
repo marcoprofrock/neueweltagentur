@@ -9,7 +9,9 @@
   var closeBtn = doc.querySelector(".menu-close");
   // Menü wird auf der Landing-Page über den Kompass oben rechts geöffnet
   var opener = doc.querySelector(".header-kompass");
+  var menuMarker = overlay ? overlay.querySelector(".menu-marker") : null;
   var menuKompass = overlay ? overlay.querySelector(".menu-kompass") : null;
+  var menuIndex = overlay ? overlay.querySelector(".menu-index") : null;
 
   var reduceMotion =
     window.matchMedia &&
@@ -39,7 +41,8 @@
     var center = rect.top + rect.height / 2;
     var best = null;
     var bestD = Infinity;
-    menuItems.forEach(function (it) {
+    var bestIndex = 0;
+    menuItems.forEach(function (it, i) {
       var r = it.getBoundingClientRect();
       var c = r.top + r.height / 2;
       var d = Math.abs(c - center);
@@ -49,22 +52,27 @@
       if (d < bestD) {
         bestD = d;
         best = it;
+        bestIndex = i;
       }
     });
     menuItems.forEach(function (it) {
       it.classList.toggle("is-center", it === best);
     });
 
-    // Kompass auf die Mitte setzen + entsprechend der Scroll-Richtung drehen
+    // Marker (Zähler + Kompass) auf die Mitte setzen
+    if (menuMarker) menuMarker.style.top = Math.round(center) + "px";
+    // Abschnitts-Zähler 01, 02, 03 …
+    if (menuIndex) {
+      var num = bestIndex + 1;
+      menuIndex.textContent = (num < 10 ? "0" : "") + num;
+    }
+    // Kompass dreht mit der Scroll-Richtung (runter = rechts rum, hoch = links)
     if (menuKompass) {
       var st = scroller.scrollTop;
       var delta = st - lastScrollTop;
       lastScrollTop = st;
-      // runter → rechts rum (im Uhrzeigersinn), hoch → links rum
       kompassDeg += delta * 0.6;
-      menuKompass.style.top = Math.round(center) + "px";
-      menuKompass.style.transform =
-        "translateY(-50%) rotate(" + kompassDeg.toFixed(1) + "deg)";
+      menuKompass.style.transform = "rotate(" + kompassDeg.toFixed(1) + "deg)";
     }
   }
   function menuSchedule() {

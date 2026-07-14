@@ -41,7 +41,7 @@
 
   --rand: clamp(1.375rem, 2.14vw, 2.5625rem); /* 22px … 41px Seitenrand */
   --header-h: clamp(3.75rem, 7vw, 5.75rem);
-  --menu-indent: clamp(3.5rem, 8vw, 7rem); /* Platz für den Menü-Kompass */
+  --menu-indent: clamp(5.5rem, 13vw, 9.5rem); /* Platz für Zähler + Kompass */
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -122,6 +122,11 @@ button {
   aspect-ratio: 1;
   -webkit-mask-image: url("../assets/svg/stern.svg");
   mask-image: url("../assets/svg/stern.svg");
+}
+.mask--milan {
+  aspect-ratio: 1527.4 / 300.35;
+  -webkit-mask-image: url("../assets/svg/milan.svg");
+  mask-image: url("../assets/svg/milan.svg");
 }
 
 /* ==========================================================================
@@ -258,20 +263,35 @@ button {
   font-weight: 500;
 }
 
-/* Kompass links neben dem mittigen (ausgewählten) Eintrag */
-.menu-kompass {
+/* Marker links neben dem mittigen Eintrag: Abschnitts-Zähler + Kompass */
+.menu-marker {
   position: fixed; /* Y wird per JS auf die Scroller-Mitte gesetzt */
   left: var(--rand);
   top: 50%;
-  width: clamp(2rem, 4.2vw, 3.75rem);
-  color: var(--schwarz);
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 1vw, 1rem);
+  transform: translateY(-50%);
   pointer-events: none;
   z-index: 2;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
-.menu-overlay.is-open .menu-kompass {
+.menu-overlay.is-open .menu-marker {
   opacity: 1;
+}
+.menu-index {
+  font-family: var(--serif); /* Secondary, klein */
+  font-size: clamp(0.9rem, 1.25vw, 1.35rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--schwarz);
+  font-variant-numeric: tabular-nums;
+}
+.menu-kompass {
+  display: block;
+  width: clamp(2rem, 4.2vw, 3.75rem);
+  color: var(--schwarz);
 }
 .menu-meta {
   flex: 0 0 auto;
@@ -347,19 +367,14 @@ button {
 .hero__scroll {
   position: absolute;
   left: 50%;
-  bottom: clamp(1.25rem, 3vw, 2.25rem);
-  transform: translateX(-50%);
+  bottom: clamp(1.5rem, 3.5vw, 2.75rem);
+  width: clamp(3.5rem, 7vw, 6rem);
   color: var(--rot);
-  font-size: 0.8rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  writing-mode: vertical-rl;
-  opacity: 0.75;
   animation: floaty 2.4s ease-in-out infinite;
 }
 @keyframes floaty {
   0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 8px); }
+  50% { transform: translate(-50%, 9px); }
 }
 
 /* ==========================================================================
@@ -657,9 +672,7 @@ button {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: var(--weiss);
-  /* leichter weißer „Blitzer"-Rand um die Portraits */
-  border: clamp(2px, 0.3vw, 3px) solid var(--weiss);
+  background: transparent; /* kein weißer Rand/Blitzer mehr */
   margin-bottom: clamp(1rem, 1.6vw, 1.6rem);
 }
 .team-card__photo img {
