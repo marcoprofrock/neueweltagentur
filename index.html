@@ -41,7 +41,7 @@
       href="assets/fonts/eb-garamond-latin.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="css/style.css?v=20260722" />
+    <link rel="stylesheet" href="css/style.css?v=20260815" />
   </head>
   <body>
     <!-- Passwort-Gate (einfacher Zugangsschutz) -->
@@ -225,13 +225,24 @@
               <img src="assets/img/team/daryl.jpg" alt="Daryl Kastenholz" width="900" height="1125" loading="lazy" />
             </div>
             <h3 class="team-card__name">Daryl Kastenholz</h3>
-            <p class="team-card__role">Partner</p>
-            <p class="team-card__bio">
-              Daryl spent years as Head of Design at OACE, where he shaped the
-              brand's visual identity along with several collections and their
-              campaigns. For the past few years he has worked independently for
-              renowned brands.
-            </p>
+            <div class="team-card__meta">
+              <p class="team-card__role">Partner</p>
+              <button
+                class="team-card__toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="bio-daryl"
+                aria-label="Bio von Daryl Kastenholz anzeigen"
+              ></button>
+            </div>
+            <div class="team-card__bio-wrap">
+              <p class="team-card__bio" id="bio-daryl">
+                Daryl spent years as Head of Design at OACE, where he shaped the
+                brand's visual identity along with several collections and their
+                campaigns. For the past few years he has worked independently
+                for renowned brands.
+              </p>
+            </div>
           </article>
 
           <article class="team-card">
@@ -239,16 +250,27 @@
               <img src="assets/img/team/marco.jpg" alt="Marco Pröfrock" width="900" height="1125" loading="lazy" />
             </div>
             <h3 class="team-card__name">Marco Pröfrock</h3>
-            <p class="team-card__role">Partner</p>
-            <p class="team-card__bio">
-              Marco is a creative with a focus on concept, advertising &amp;
-              design. His work has been recognised by numerous international
-              awards, among them the Cannes Lions and the New York Type
-              Directors Club. At just 25 he already has more than 20 accolades
-              to his name and is a member of The One Club for Creativity in New
-              York and the Institute of Creative Advertising and Design in
-              Ireland.
-            </p>
+            <div class="team-card__meta">
+              <p class="team-card__role">Partner</p>
+              <button
+                class="team-card__toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="bio-marco"
+                aria-label="Bio von Marco Pröfrock anzeigen"
+              ></button>
+            </div>
+            <div class="team-card__bio-wrap">
+              <p class="team-card__bio" id="bio-marco">
+                Marco is a creative with a focus on concept, advertising &amp;
+                design. His work has been recognised by numerous international
+                awards, among them the Cannes Lions and the New York Type
+                Directors Club. At just 25 he already has more than 20 accolades
+                to his name and is a member of The One Club for Creativity in
+                New York and the Institute of Creative Advertising and Design in
+                Ireland.
+              </p>
+            </div>
           </article>
 
           <article class="team-card">
@@ -256,13 +278,24 @@
               <img src="assets/img/team/david.jpg" alt="David Bosch" width="900" height="1125" loading="lazy" />
             </div>
             <h3 class="team-card__name">David Bosch</h3>
-            <p class="team-card__role">Partner</p>
-            <p class="team-card__bio">
-              David started out as a self-taught designer with a focus on
-              graphic design and fashion, strongly shaping the OLAKALA brand in
-              its early years. He is a co-founder of the streetwear label
-              BRUVERS — and a qualified lifeguard.
-            </p>
+            <div class="team-card__meta">
+              <p class="team-card__role">Partner</p>
+              <button
+                class="team-card__toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="bio-david"
+                aria-label="Bio von David Bosch anzeigen"
+              ></button>
+            </div>
+            <div class="team-card__bio-wrap">
+              <p class="team-card__bio" id="bio-david">
+                David started out as a self-taught designer with a focus on
+                graphic design and fashion, strongly shaping the OLAKALA brand
+                in its early years. He is a co-founder of the streetwear label
+                BRUVERS — and a qualified lifeguard.
+              </p>
+            </div>
           </article>
         </div>
       </section>
@@ -278,6 +311,9 @@
 
       <!-- ===================== Standort ===================== -->
       <section class="location" id="location" data-color="dunkel">
+        <div class="location__divider" aria-hidden="true">
+          <span class="location__milan mask mask--milan"></span>
+        </div>
         <div class="location__info">
           <p class="location__label">Standort</p>
           <p class="location__city">Stuttgart</p>
@@ -331,6 +367,6 @@
       <p class="site-footer__copy">© <span id="year">2026</span> Neue Welt Agentur</p>
     </footer>
 
-    <script src="js/main.js?v=20260722"></script>
+    <script src="js/main.js?v=20260815"></script>
   </body>
 </html>

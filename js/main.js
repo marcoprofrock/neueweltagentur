@@ -496,6 +496,22 @@
   })();
 
   /* --------------------------------------------------------------------- *
+   * Team-Bios: per +-Button ein-/ausklappen (Progressive Enhancement)
+   * --------------------------------------------------------------------- */
+  (function () {
+    var cards = doc.querySelectorAll(".team-card");
+    Array.prototype.forEach.call(cards, function (card) {
+      var btn = card.querySelector(".team-card__toggle");
+      if (!btn) return;
+      card.classList.add("is-collapsible"); // erst ab hier eingeklappt (kein JS = offen)
+      btn.addEventListener("click", function () {
+        var open = card.classList.toggle("is-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    });
+  })();
+
+  /* --------------------------------------------------------------------- *
    * Milan (Scroll-Hinweis): beim Runterscrollen nach oben fliegen + ausfaden
    * --------------------------------------------------------------------- */
   (function () {

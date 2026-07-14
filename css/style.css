@@ -722,19 +722,79 @@ button {
   letter-spacing: -0.02em;
   margin: 0;
 }
+.team-card__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
 .team-card__role {
   margin: 0.4em 0 0;
   font-family: var(--serif); /* Secondary */
   font-size: clamp(1.05rem, 1.45vw, 1.4rem);
   letter-spacing: -0.01em;
 }
+/* +-Toggle: nur sichtbar, wenn JS die Bio einklappbar gemacht hat */
+.team-card__toggle {
+  display: none;
+  position: relative;
+  flex: 0 0 auto;
+  width: 1.5em;
+  height: 1.5em;
+  color: currentColor;
+  transition: transform 0.45s var(--ease), opacity 0.25s ease;
+}
+.team-card.is-collapsible .team-card__toggle {
+  display: block;
+}
+.team-card__toggle::before,
+.team-card__toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: currentColor;
+}
+.team-card__toggle::before {
+  width: 1.1em;
+  height: 1.5px;
+  transform: translate(-50%, -50%);
+}
+.team-card__toggle::after {
+  width: 1.5px;
+  height: 1.1em;
+  transform: translate(-50%, -50%);
+}
+.team-card__toggle:hover {
+  opacity: 0.6;
+}
+/* Plus -> Kreuz (× durch 45°-Drehung), passend zur Kompass-Ästhetik */
+.team-card.is-open .team-card__toggle {
+  transform: rotate(45deg);
+}
+.team-card__bio-wrap {
+  overflow: hidden; /* ohne JS: offen (max-height wird nur bei is-collapsible gesetzt) */
+}
+.team-card.is-collapsible .team-card__bio-wrap {
+  max-height: 0;
+  transition: max-height 0.55s var(--ease);
+}
+.team-card.is-collapsible.is-open .team-card__bio-wrap {
+  max-height: 26rem; /* groesser als die laengste Bio */
+}
 .team-card__bio {
-  margin: clamp(0.75rem, 1.4vw, 1.1rem) 0 0;
+  margin: 0;
+  padding-top: clamp(0.75rem, 1.4vw, 1.1rem);
   font-family: var(--serif); /* Secondary */
   font-size: clamp(1rem, 1.15vw, 1.15rem);
   line-height: 1.45;
   letter-spacing: -0.005em;
   opacity: 0.82;
+}
+@media (prefers-reduced-motion: reduce) {
+  .team-card.is-collapsible .team-card__bio-wrap {
+    transition: none;
+  }
 }
 
 /* ==========================================================================
@@ -785,12 +845,24 @@ button {
 .location {
   background: var(--weiss);
   color: var(--schwarz);
-  padding: clamp(4.5rem, 9vw, 8rem) 0 0; /* Karte laeuft randlos bis zur Unterkante */
+  padding: 0 0; /* Karte laeuft randlos bis zur Unterkante */
+}
+/* Schwarzer Trenner nach oben: der Milan spannt sich rot ueber die ganze Breite */
+.location__divider {
+  background: var(--schwarz);
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0; /* randlos: Milan spannt ueber die ganze Breite */
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.location__milan {
+  width: 100%;
+  color: var(--rot);
 }
 .location__info {
   display: flex;
   flex-direction: column;
-  padding: 0 var(--rand) clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(4rem, 8vw, 7rem) var(--rand) clamp(2.5rem, 5vw, 4rem);
 }
 .location__map {
   display: block;
