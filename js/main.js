@@ -342,6 +342,7 @@
    * --------------------------------------------------------------------- */
   (function () {
     var markOverlay = doc.querySelector(".mark-overlay");
+    var headerBar = doc.querySelector(".header-bar");
     var manifesto = doc.getElementById("manifesto");
     var manifestoMark = manifesto
       ? manifesto.querySelector(".manifesto__wortmarke")
@@ -388,17 +389,18 @@
       // Der Hero liegt am Dokumentanfang → Doc-Y == Screen-Y bei Scroll 0.
       var hr = heroMark.getBoundingClientRect();
       var startWidth = hr.width;
-      var anchorCenter = hr.top + scrollY + hr.height / 2; // hier bleibt sie stehen
+      var anchorCenter = hr.top + scrollY + hr.height / 2; // Ruhe-Mitte (Viewport) beim Schrumpfen
 
-      // Ziel = Manifesto-Wortmarke; ihre Mitte wird per Margin exakt auf den
-      // Anker geschoben, sobald die rote Fläche oben anliegt → nahtloser Cut.
-      manifestoMark.style.marginTop = "";
+      // Ziel-Größe = Manifesto-Wortmarke (kleine „geparkte“ Größe).
       var mr = manifestoMark.getBoundingClientRect();
       var endWidth = mr.width;
       var endHeight = endWidth * WM_RATIO;
-      var curCenterDoc = mr.top + scrollY + endHeight / 2;
-      var delta = mfTop + anchorCenter - curCenterDoc;
-      manifestoMark.style.marginTop = Math.round(delta) + "px";
+
+      // Höhe des angedockten roten Balkens = Wortmarke + etwas Luft.
+      var pad = 16;
+      var pinBarH = Math.round(endHeight + pad * 2);
+      root.style.setProperty("--pin-bar-h", pinBarH + "px");
+      var headerY = pinBarH / 2; // Ziel-Mitte (Viewport) im Balken
 
       m = {
         vw: vw,
@@ -409,6 +411,10 @@
         startHeight: startWidth * WM_RATIO,
         endWidth: endWidth,
         endHeight: endHeight,
+        shrinkEnd: mfTop, // bis hierhin schrumpft die Wortmarke (rote Fläche liegt oben an)
+        parkDocCenter: anchorCenter + mfTop, // Doc-Y der Wortmarken-Mitte am Ende des Schrumpfens
+        headerY: headerY,
+        pinBarH: pinBarH,
       };
     }
 
@@ -417,41 +423,50 @@
       if (!enabled || !m) return;
 
       var scrollY = window.pageYOffset;
-      var p = m.mfTop > 0 ? scrollY / m.mfTop : 1;
-      if (p < 0) p = 0;
-      if (p > 1) p = 1;
+      var w, h, centerV;
 
-      // Nach Abschluss: statische Manifesto-Wortmarke übernimmt nahtlos
-      if (p >= 1) {
-        markOverlay.style.display = "none";
-        manifestoMark.style.visibility = "";
-        return;
+      if (scrollY <= m.shrinkEnd) {
+        // Phase 1 — Schrumpfen: Mitte bleibt fix im Viewport, nur kleiner werden.
+        var p = m.shrinkEnd > 0 ? scrollY / m.shrinkEnd : 1;
+        if (p < 0) p = 0;
+        if (p > 1) p = 1;
+        var e = easeInOut(p);
+        w = m.startWidth + (m.endWidth - m.startWidth) * e;
+        h = w * WM_RATIO;
+        centerV = m.anchorCenter;
+      } else {
+        // Phase 2 — Mitfahren: geparkte Größe, scrollt normal nach oben.
+        // Phase 3 — Andocken: oben am Balken fixieren.
+        w = m.endWidth;
+        h = m.endHeight;
+        centerV = m.parkDocCenter - scrollY;
+        if (centerV < m.headerY) centerV = m.headerY;
       }
-      markOverlay.style.display = "block";
-      manifestoMark.style.visibility = "hidden";
 
-      var e = easeInOut(p);
-      var w = m.startWidth + (m.endWidth - m.startWidth) * e;
-      var h = w * WM_RATIO;
-      var top = m.anchorCenter - h / 2; // Mitte bleibt fix → "bewegt sich nicht"
+      var top = centerV - h / 2;
       var left = (m.vw - w) / 2;
 
+      markOverlay.style.display = "block";
       markOverlay.style.width = w + "px";
       markOverlay.style.height = h + "px";
       markOverlay.style.transform =
         "translate3d(" + Math.round(left) + "px," + Math.round(top) + "px,0)";
 
-      // Farb-Cut: Oberkante der roten Fläche im Viewport
+      // Farb-Cut: Oberkante der roten Fläche im Viewport (im Bild → rot, auf Rot → dunkel)
       var splitView = m.mfTop - scrollY;
       var splitWithin = splitView - top;
       if (splitWithin < 0) splitWithin = 0;
       if (splitWithin > h) splitWithin = h;
-
-      // oberhalb der Grenze (über dem Bild) → rot
-      layerRot.style.clipPath =
-        "inset(0 0 " + (h - splitWithin) + "px 0)";
-      // unterhalb der Grenze (über der roten Fläche) → dunkel
+      layerRot.style.clipPath = "inset(0 0 " + (h - splitWithin) + "px 0)";
       layerDun.style.clipPath = "inset(" + splitWithin + "px 0 0 0)";
+
+      // Roten Balken einblenden, sobald die Wortmarke oben andockt
+      var fade = 1 - ((m.parkDocCenter - scrollY) - m.headerY) / 140;
+      if (fade < 0) fade = 0;
+      if (fade > 1) fade = 1;
+      if (scrollY <= m.shrinkEnd) fade = 0;
+      if (headerBar) headerBar.style.opacity = fade.toFixed(3);
+      root.classList.toggle("mark-pinned", fade > 0.5);
     }
 
     function schedule() {
@@ -461,15 +476,21 @@
     function enable() {
       enabled = true;
       root.classList.add("has-mark-scroll");
+      // Die animierte Wortmarke trägt die Marke über den gesamten Bereich →
+      // die statische Manifesto-Wortmarke bleibt durchgehend verborgen.
+      manifestoMark.style.visibility = "hidden";
       measure();
       update();
     }
     function disable() {
       enabled = false;
       root.classList.remove("has-mark-scroll");
+      root.classList.remove("mark-pinned");
+      root.style.removeProperty("--pin-bar-h");
       markOverlay.style.display = "none";
       markOverlay.removeAttribute("style");
       markOverlay.style.display = "none";
+      if (headerBar) headerBar.style.opacity = "";
       manifestoMark.style.visibility = "";
       manifestoMark.style.marginTop = "";
     }

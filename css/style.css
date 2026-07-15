@@ -142,7 +142,7 @@ button {
   justify-content: space-between;
   padding: 0 var(--rand);
   color: var(--rot); /* Default über dem dunklen Hero */
-  transition: color 0.4s ease;
+  transition: color 0.4s ease, height 0.3s ease;
   pointer-events: none;
 }
 .site-header[data-color="dunkel"] {
@@ -153,6 +153,28 @@ button {
 }
 .site-header > * {
   pointer-events: auto;
+}
+
+/* Angedockter Zustand: Header wächst auf Balkenhöhe, Marken werden dunkel */
+.mark-pinned .site-header {
+  height: var(--pin-bar-h, var(--header-h));
+}
+.mark-pinned .site-header[data-color] {
+  color: var(--dunkel-text);
+}
+
+/* Roter Header-/Menü-Balken hinter der angedockten Wortmarke */
+.header-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--pin-bar-h, var(--header-h));
+  background: var(--rot);
+  z-index: 29; /* unter der Wortmarke (30), unter Home/Kompass (40) */
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
 }
 .menu-toggle {
   font-family: var(--serif);
