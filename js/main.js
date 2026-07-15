@@ -439,8 +439,23 @@
       if (!enabled || !m) return;
 
       var scrollY = window.pageYOffset;
-      var w, h, centerV, dock = 0;
+      var dockStart = m.parkDocCenter - (m.headerY + m.dockRange); // ab hier andocken
 
+      // Phase 2 — Mitfahren: die echte Manifesto-Wortmarke scrollt nativ mit dem
+      // Text (kein JS pro Frame → konstanter Abstand, kein Flackern). Das fixe
+      // Overlay ist hier aus, ebenso der Balken.
+      if (scrollY > m.shrinkEnd && scrollY <= dockStart) {
+        markOverlay.style.display = "none";
+        manifestoMark.style.visibility = "";
+        if (headerBar) headerBar.style.opacity = "0";
+        root.classList.remove("mark-pinned");
+        return;
+      }
+
+      // Phasen 1 (Schrumpfen) & 3 (Andocken) übernimmt das fixe Overlay.
+      manifestoMark.style.visibility = "hidden";
+
+      var w, h, centerV, dock = 0;
       if (scrollY <= m.shrinkEnd) {
         // Phase 1 — Schrumpfen: Mitte bleibt fix im Viewport, nur kleiner werden.
         var p = m.shrinkEnd > 0 ? scrollY / m.shrinkEnd : 1;
@@ -451,9 +466,8 @@
         h = w * WM_RATIO;
         centerV = m.anchorCenter;
       } else {
-        // Phase 2 — Mitfahren: geparkte Größe, scrollt normal nach oben.
         // Phase 3 — Andocken: auf ~2/3 schrumpfen und oben am Balken fixieren.
-        var raw = m.parkDocCenter - scrollY; // Viewport-Mitte beim Mitfahren
+        var raw = m.parkDocCenter - scrollY; // Viewport-Mitte
         dock = (m.headerY + m.dockRange - raw) / m.dockRange;
         if (dock < 0) dock = 0;
         if (dock > 1) dock = 1;
