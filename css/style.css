@@ -368,15 +368,21 @@ button {
     );
     mask-image: linear-gradient(to right, #000 50%, transparent 57%);
   }
+  /* Close-Button links neben den Bildblock (44vw breit) rücken,
+     damit er auf den Bildern/Videos nicht untergeht */
+  .menu-close {
+    margin-right: 44vw;
+  }
 }
 
+/* Harter Wechsel: das Panel des zentrierten Eintrags ist sofort da,
+   kein Überblenden → nie rotes Durchscheinen zwischen den Punkten */
 .menu-media__panel {
   position: absolute;
   inset: 0;
-  background: var(--rot);
+  background: var(--schwarz);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.55s var(--ease), visibility 0.55s;
 }
 .menu-media__panel.is-active {
   opacity: 1;
@@ -403,7 +409,8 @@ button {
   color: var(--rot);
 }
 
-/* Team: Portraits übereinander, im Loop überblendet */
+/* Team: Portraits übereinander, harter Schnitt (kein Faden),
+   je ~1,5 s pro Person im Loop */
 .menu-media__portrait {
   position: absolute;
   inset: 0;
@@ -413,28 +420,22 @@ button {
   opacity: 0;
 }
 .menu-media__panel--team.is-active .menu-media__portrait {
-  animation: menuPortraitLoop 9s infinite;
+  animation: menuPortraitCut 2.25s steps(1) infinite;
 }
 .menu-media__panel--team .menu-media__portrait:nth-child(1) {
   animation-delay: 0s;
 }
 .menu-media__panel--team .menu-media__portrait:nth-child(2) {
-  animation-delay: -3s;
+  animation-delay: -0.75s;
 }
 .menu-media__panel--team .menu-media__portrait:nth-child(3) {
-  animation-delay: -6s;
+  animation-delay: -1.5s;
 }
-@keyframes menuPortraitLoop {
+@keyframes menuPortraitCut {
   0% {
-    opacity: 0;
-  }
-  4% {
     opacity: 1;
   }
-  29% {
-    opacity: 1;
-  }
-  33% {
+  33.333% {
     opacity: 0;
   }
   100% {
@@ -442,32 +443,36 @@ button {
   }
 }
 
-/* Contact: Platzhalter */
+/* Contact: rechte Bildhälfte komplett schwarz (harte Kante zur Mitte),
+   Mail in Rot darauf */
 .menu-media__panel--contact {
+  background: var(--schwarz);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem);
 }
-.menu-media__placeholder {
+.menu-media__mail {
+  pointer-events: auto;
+  color: var(--rot);
   font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 4rem);
-  letter-spacing: -0.02em;
-  color: var(--schwarz);
-  opacity: 0.4;
+  font-size: clamp(1.1rem, 1.9vw, 2rem);
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+.menu-media__mail:hover {
+  color: var(--weiss);
 }
 
-/* Office: Stuttgart-Karte */
+/* Office: Karte füllt die ganze Fläche → harte Kante an der Bildschirmmitte */
 .menu-media__panel--office {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--schwarz);
 }
 .menu-media__karte {
   width: 100%;
-  height: auto;
-  max-height: 100%;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
