@@ -64,6 +64,9 @@
   /* Scroll-Menü: Eintrag in der Mitte am größten (Grotesk), Rest Garamond */
   var scroller = overlay ? overlay.querySelector(".menu-scroller") : null;
   var menuItems = scroller ? scroller.querySelectorAll(".menu-item") : [];
+  var mediaPanels = overlay
+    ? overlay.querySelectorAll(".menu-media__panel")
+    : [];
   var menuRaf = null;
   var kompassDeg = 0;
   var lastScrollTop = 0;
@@ -93,6 +96,14 @@
     menuItems.forEach(function (it) {
       it.classList.toggle("is-center", it === best);
     });
+
+    // Rechte Bild-/Video-Bühne: nur das Panel des zentrierten Eintrags zeigen
+    // (gleiche Reihenfolge wie die Menüpunkte → Mapping per Index)
+    if (mediaPanels.length) {
+      Array.prototype.forEach.call(mediaPanels, function (p, i) {
+        p.classList.toggle("is-active", i === bestIndex);
+      });
+    }
 
     // Marker (Zähler + Kompass) auf die Mitte setzen
     if (menuMarker) menuMarker.style.top = Math.round(center) + "px";
@@ -194,7 +205,7 @@
    * --------------------------------------------------------------------- */
   (function () {
     var vids = doc.querySelectorAll(
-      ".work-card__video, .project__video video, .project__intro-bg"
+      ".work-card__video, .project__video video, .project__intro-bg, .menu-media__video"
     );
     if (!vids.length) return;
 

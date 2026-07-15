@@ -41,7 +41,7 @@
       href="assets/fonts/eb-garamond-latin.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="css/style.css?v=20260817g" />
+    <link rel="stylesheet" href="css/style.css?v=20260817h" />
   </head>
   <body>
     <!-- Passwort-Gate (einfacher Zugangsschutz) -->
@@ -114,6 +114,44 @@
         <a class="menu-item" href="#contact">Contact</a>
         <a class="menu-item" href="#location">Office</a>
       </div>
+
+      <!-- Rechte Bild-/Video-Bühne: pro Menüpunkt ein anderes Motiv,
+           sichtbar ist nur das Panel des gerade zentrierten Eintrags -->
+      <div class="menu-media" aria-hidden="true">
+        <!-- Work: Video der OACE-Work-Kachel -->
+        <div class="menu-media__panel" data-media="work">
+          <video
+            class="menu-media__video"
+            src="assets/video/work-01.mp4"
+            poster="assets/video/work-01.jpg"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+          ></video>
+        </div>
+        <!-- Manifesto: schwarze Fläche mit grossem roten Stern -->
+        <div class="menu-media__panel menu-media__panel--manifest" data-media="manifesto">
+          <span class="menu-media__stern mask mask--stern"></span>
+        </div>
+        <!-- Team: Daryl / Marco / David als Loop -->
+        <div class="menu-media__panel menu-media__panel--team" data-media="team">
+          <img class="menu-media__portrait" src="assets/img/team/daryl.jpg" alt="" loading="lazy" />
+          <img class="menu-media__portrait" src="assets/img/team/marco.jpg" alt="" loading="lazy" />
+          <img class="menu-media__portrait" src="assets/img/team/david.jpg" alt="" loading="lazy" />
+        </div>
+        <!-- Contact: Platzhalter -->
+        <div class="menu-media__panel menu-media__panel--contact" data-media="contact">
+          <span class="menu-media__placeholder">Contact</span>
+        </div>
+        <!-- Office: Stuttgart-Karte -->
+        <div class="menu-media__panel menu-media__panel--office" data-media="location">
+          <img class="menu-media__karte" src="assets/svg/karte-stuttgart.svg?v=20260815" alt="" loading="lazy" />
+        </div>
+      </div>
+
       <div class="menu-meta">
         <a href="impressum.html">Impressum</a>
         <a href="datenschutz.html">Datenschutz</a>
@@ -381,6 +419,6 @@
       <p class="site-footer__copy">© <span id="year">2026</span> Neue Welt Agentur</p>
     </footer>
 
-    <script src="js/main.js?v=20260817h"></script>
+    <script src="js/main.js?v=20260817i"></script>
   </body>
 </html>

@@ -265,7 +265,9 @@ button {
 .menu-scroller::before,
 .menu-scroller::after {
   content: "";
-  flex: 0 0 38%;
+  /* 50% Puffer, damit auch der erste (Work) und letzte (Office) Eintrag
+     bis in die Mitte gescrollt werden können */
+  flex: 0 0 50%;
 }
 .menu-item {
   flex: 0 0 auto;
@@ -329,6 +331,152 @@ button {
 }
 .menu-meta a:hover {
   color: var(--dunkel);
+}
+
+/* Damit Close-Button, Marker und Meta immer über der Bild-Bühne liegen */
+.menu-overlay__top,
+.menu-meta {
+  position: relative;
+  z-index: 3;
+}
+
+/* ---- Rechte Bild-/Video-Bühne im Menü ------------------------------------ */
+.menu-media {
+  display: none; /* nur Desktop, s. u. */
+}
+
+@media (min-width: 769px) {
+  .menu-media {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 44%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  /* Text bleibt in der linken Hälfte; lange Wörter faden sanft in die
+     Bühne aus (kein harter Schnitt an der Panel-Kante) */
+  .menu-scroller {
+    padding-right: 44%;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 50%,
+      transparent 57%
+    );
+    mask-image: linear-gradient(to right, #000 50%, transparent 57%);
+  }
+}
+
+.menu-media__panel {
+  position: absolute;
+  inset: 0;
+  background: var(--rot);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.55s var(--ease), visibility 0.55s;
+}
+.menu-media__panel.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Work-Video */
+.menu-media__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Manifesto: schwarze Fläche, roter Stern mittig */
+.menu-media__panel--manifest {
+  background: var(--schwarz);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-media__stern {
+  width: 46%;
+  color: var(--rot);
+}
+
+/* Team: Portraits übereinander, im Loop überblendet */
+.menu-media__portrait {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+.menu-media__panel--team.is-active .menu-media__portrait {
+  animation: menuPortraitLoop 9s infinite;
+}
+.menu-media__panel--team .menu-media__portrait:nth-child(1) {
+  animation-delay: 0s;
+}
+.menu-media__panel--team .menu-media__portrait:nth-child(2) {
+  animation-delay: -3s;
+}
+.menu-media__panel--team .menu-media__portrait:nth-child(3) {
+  animation-delay: -6s;
+}
+@keyframes menuPortraitLoop {
+  0% {
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  29% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Contact: Platzhalter */
+.menu-media__panel--contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-media__placeholder {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 4rem);
+  letter-spacing: -0.02em;
+  color: var(--schwarz);
+  opacity: 0.4;
+}
+
+/* Office: Stuttgart-Karte */
+.menu-media__panel--office {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+}
+.menu-media__karte {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-media__panel--team .menu-media__portrait {
+    animation: none;
+  }
+  .menu-media__panel--team .menu-media__portrait:nth-child(1) {
+    opacity: 1;
+  }
 }
 
 /* ==========================================================================
