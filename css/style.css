@@ -176,6 +176,28 @@ button {
   pointer-events: none;
   will-change: opacity;
 }
+/* Statischer roter Header-Balken auf Projekt-Unterseiten (ohne Scroll-Animation) */
+.project-topbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 29; /* unter Home/Kompass (40), über dem Seiteninhalt */
+  height: var(--header-h);
+  background: var(--rot);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.project-topbar__mark {
+  width: clamp(9rem, 18vw, 15rem);
+  color: var(--dunkel-text);
+}
+/* Auf Projekt-Unterseiten sitzt der Header dauerhaft auf dem roten Balken →
+   Home/Kompass immer schwarz, unabhängig von der Sektionsfarbe. */
+.site-header.site-header--pinned[data-color] {
+  color: var(--schwarz);
+}
+
 .menu-toggle {
   font-family: var(--serif);
   font-size: clamp(1.0625rem, 1.55vw, 1.625rem);

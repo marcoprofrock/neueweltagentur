@@ -61,8 +61,13 @@
     <!-- Custom Cursor -->
     <div class="cursor" aria-hidden="true"></div>
 
+    <!-- Statischer roter Header-Balken mit Wortmarke (wie Startseite, ohne Scroll-Animation) -->
+    <div class="project-topbar" aria-hidden="true">
+      <span class="project-topbar__mark mask mask--wortmarke"></span>
+    </div>
+
     <!-- ===================== Header ===================== -->
-    <header class="site-header" data-color="weiss">
+    <header class="site-header site-header--pinned" data-color="dunkel">
       <a class="menu-toggle header-home" href="index.html">Home</a>
       <button
         class="header-kompass"
