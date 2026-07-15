@@ -41,7 +41,7 @@
       href="assets/fonts/eb-garamond-latin.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="css/style.css?v=20260817e" />
+    <link rel="stylesheet" href="css/style.css?v=20260817f" />
   </head>
   <body>
     <!-- Passwort-Gate (einfacher Zugangsschutz) -->
@@ -126,14 +126,17 @@
     <!-- ===================== Hero / ATF ===================== -->
     <main id="top">
       <section class="hero" data-color="rot" aria-label="Neue Welt Agentur">
-        <img
+        <video
           class="hero__bg"
-          src="assets/img/hero-1920.jpg"
-          srcset="assets/img/hero-1080.jpg 1080w, assets/img/hero-1920.jpg 1920w"
-          sizes="100vw"
-          alt=""
-          fetchpriority="high"
-        />
+          src="assets/video/hero.mp4"
+          poster="assets/img/hero-1920.jpg"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          aria-hidden="true"
+        ></video>
         <div class="hero__inner">
           <span class="hero__stern mask mask--stern" aria-hidden="true"></span>
           <span
