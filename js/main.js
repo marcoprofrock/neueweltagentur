@@ -391,14 +391,27 @@
       var startWidth = hr.width;
       var anchorCenter = hr.top + scrollY + hr.height / 2; // Ruhe-Mitte (Viewport) beim Schrumpfen
 
-      // Ziel-Größe = Manifesto-Wortmarke (kleine „geparkte“ Größe).
+      // Geparkte Größe = Manifesto-Wortmarke.
+      manifestoMark.style.marginTop = "";
       var mr = manifestoMark.getBoundingClientRect();
       var endWidth = mr.width;
       var endHeight = endWidth * WM_RATIO;
 
-      // Höhe des angedockten roten Balkens = Wortmarke + etwas Luft.
+      var parkDocCenter = anchorCenter + mfTop; // Doc-Y der Wortmarken-Mitte am Ende des Schrumpfens
+
+      // Manifesto-Text unter die geparkte Wortmarke schieben (wie ursprünglich),
+      // damit die Marke „über dem Text“ landet statt mitten drin.
+      var naturalCenterDoc = mr.top + scrollY + endHeight / 2;
+      var delta = parkDocCenter - naturalCenterDoc;
+      manifestoMark.style.marginTop = Math.round(delta) + "px";
+
+      // Angedockte Größe = ~2/3 der geparkten Größe → schlanker Header-Balken.
+      var pinnedWidth = endWidth * (2 / 3);
+      var pinnedHeight = pinnedWidth * WM_RATIO;
+
+      // Höhe des angedockten roten Balkens = angedockte Wortmarke + etwas Luft.
       var pad = 16;
-      var pinBarH = Math.round(endHeight + pad * 2);
+      var pinBarH = Math.round(pinnedHeight + pad * 2);
       root.style.setProperty("--pin-bar-h", pinBarH + "px");
       var headerY = pinBarH / 2; // Ziel-Mitte (Viewport) im Balken
 
@@ -411,10 +424,13 @@
         startHeight: startWidth * WM_RATIO,
         endWidth: endWidth,
         endHeight: endHeight,
+        pinnedWidth: pinnedWidth,
+        pinnedHeight: pinnedHeight,
         shrinkEnd: mfTop, // bis hierhin schrumpft die Wortmarke (rote Fläche liegt oben an)
-        parkDocCenter: anchorCenter + mfTop, // Doc-Y der Wortmarken-Mitte am Ende des Schrumpfens
+        parkDocCenter: parkDocCenter,
         headerY: headerY,
         pinBarH: pinBarH,
+        dockRange: 200, // letzte px vor dem Andocken: 2/3-Schrumpfen + Balken einblenden
       };
     }
 
@@ -423,7 +439,7 @@
       if (!enabled || !m) return;
 
       var scrollY = window.pageYOffset;
-      var w, h, centerV;
+      var w, h, centerV, dock = 0;
 
       if (scrollY <= m.shrinkEnd) {
         // Phase 1 — Schrumpfen: Mitte bleibt fix im Viewport, nur kleiner werden.
@@ -436,11 +452,15 @@
         centerV = m.anchorCenter;
       } else {
         // Phase 2 — Mitfahren: geparkte Größe, scrollt normal nach oben.
-        // Phase 3 — Andocken: oben am Balken fixieren.
-        w = m.endWidth;
-        h = m.endHeight;
-        centerV = m.parkDocCenter - scrollY;
-        if (centerV < m.headerY) centerV = m.headerY;
+        // Phase 3 — Andocken: auf ~2/3 schrumpfen und oben am Balken fixieren.
+        var raw = m.parkDocCenter - scrollY; // Viewport-Mitte beim Mitfahren
+        dock = (m.headerY + m.dockRange - raw) / m.dockRange;
+        if (dock < 0) dock = 0;
+        if (dock > 1) dock = 1;
+        var e2 = easeInOut(dock);
+        w = m.endWidth + (m.pinnedWidth - m.endWidth) * e2;
+        h = w * WM_RATIO;
+        centerV = raw < m.headerY ? m.headerY : raw;
       }
 
       var top = centerV - h / 2;
@@ -460,13 +480,9 @@
       layerRot.style.clipPath = "inset(0 0 " + (h - splitWithin) + "px 0)";
       layerDun.style.clipPath = "inset(" + splitWithin + "px 0 0 0)";
 
-      // Roten Balken einblenden, sobald die Wortmarke oben andockt
-      var fade = 1 - ((m.parkDocCenter - scrollY) - m.headerY) / 140;
-      if (fade < 0) fade = 0;
-      if (fade > 1) fade = 1;
-      if (scrollY <= m.shrinkEnd) fade = 0;
-      if (headerBar) headerBar.style.opacity = fade.toFixed(3);
-      root.classList.toggle("mark-pinned", fade > 0.5);
+      // Roten Balken synchron zum Andocken einblenden
+      if (headerBar) headerBar.style.opacity = dock.toFixed(3);
+      root.classList.toggle("mark-pinned", dock > 0.5);
     }
 
     function schedule() {
