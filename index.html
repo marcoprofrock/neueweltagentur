@@ -131,7 +131,18 @@
         </div>
         <!-- Contact: rote Fläche, Mail auf schwarzem Block -->
         <div class="menu-media__panel menu-media__panel--contact" data-media="contact">
-          <a class="menu-media__mail" href="mailto:hello@neueweltagentur.com">hello@neueweltagentur.com</a>
+          <a
+            class="menu-media__icon"
+            href="tel:+4915908323432"
+            data-i18n-attr="aria-label:contact.callAria"
+            aria-label="Anrufen: +49 159 08323432"
+          ><span class="mask mask--telefon" aria-hidden="true"></span></a>
+          <a
+            class="menu-media__icon"
+            href="mailto:hello@marco.ad"
+            data-i18n-attr="aria-label:contact.mailAria"
+            aria-label="E-Mail schreiben an hello@marco.ad"
+          ><span class="mask mask--mail" aria-hidden="true"></span></a>
         </div>
         <!-- Office: Stuttgart-Karte -->
         <div class="menu-media__panel menu-media__panel--office" data-media="location">
@@ -343,7 +354,26 @@
       <section class="contact" id="contact" data-color="weiss">
         <div class="contact__inner">
           <p class="contact__label" data-i18n="contact.label">Contact</p>
-          <a class="contact__mail" href="mailto:hello@neueweltagentur.com">hello@neueweltagentur.com</a>
+          <div class="contact__actions">
+            <a
+              class="contact__icon"
+              href="tel:+4915908323432"
+              data-i18n-attr="aria-label:contact.callAria"
+              aria-label="Anrufen: +49 159 08323432"
+            >
+              <span class="mask mask--telefon" aria-hidden="true"></span>
+              <span class="contact__icon-label">+49 159 08323432</span>
+            </a>
+            <a
+              class="contact__icon"
+              href="mailto:hello@marco.ad"
+              data-i18n-attr="aria-label:contact.mailAria"
+              aria-label="E-Mail schreiben an hello@marco.ad"
+            >
+              <span class="mask mask--mail" aria-hidden="true"></span>
+              <span class="contact__icon-label">hello@marco.ad</span>
+            </a>
+          </div>
           <p class="contact__note">Neue Welt Agentur · Stuttgart</p>
         </div>
       </section>

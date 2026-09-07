@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linejoin="miter" role="img" aria-hidden="true">
+  <!-- Glyphe misst 33x33 um (27.5/20.5); auf Feldmitte geschoben und auf die
+       Breite des Briefsymbols skaliert. stroke-width vorab geteilt, damit die
+       Linienstaerke nach der Skalierung wieder 2 betraegt. -->
+  <g transform="translate(24 24) scale(1.21) translate(-27.5 -20.5)">
+    <path d="M12 8c0-1.66 1.34-3 3-3h4c1.66 0 3 1.34 3 3v6c0 1.66-1.34 3-3 3h-1.5c0 8 5.5 13.5 13.5 13.5V29c0-1.66 1.34-3 3-3h6c1.66 0 3 1.34 3 3v4c0 1.66-1.34 3-3 3C24 36 12 24 12 8Z"/>
+  </g>
+</svg>

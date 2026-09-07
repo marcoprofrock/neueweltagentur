@@ -63,6 +63,8 @@
         "David started out as a self-taught designer focused on graphic design and fashion and shaped the OLAKALA brand strongly in its early years. He is co-founder of the streetwear brand BRUVERS — and a lifeguard.",
 
       "contact.label": "Contact",
+      "contact.callAria": "Call +49 159 08323432",
+      "contact.mailAria": "Write an e-mail to hello@marco.ad",
 
       "office.label": "Office",
       "office.route": "Get directions",
@@ -99,6 +101,7 @@
       "legal.imprintH2Info": "Information pursuant to § 5 DDG",
       "legal.imprintH2Contact": "Contact",
       "legal.imprintH2Resp": "Responsible for the content",
+      "legal.imprintPhone": "Phone:",
       "legal.imprintMail": "E-mail:",
       "legal.note":
         "Placeholder — the complete details will be added before going live.",

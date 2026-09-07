@@ -123,6 +123,16 @@ button {
   -webkit-mask-image: url("../assets/svg/stern.svg");
   mask-image: url("../assets/svg/stern.svg");
 }
+.mask--telefon {
+  aspect-ratio: 1;
+  -webkit-mask-image: url("../assets/svg/telefon.svg");
+  mask-image: url("../assets/svg/telefon.svg");
+}
+.mask--mail {
+  aspect-ratio: 1;
+  -webkit-mask-image: url("../assets/svg/mail.svg");
+  mask-image: url("../assets/svg/mail.svg");
+}
 .mask--milan {
   aspect-ratio: 1527.4 / 300.35;
   -webkit-mask-image: url("../assets/svg/milan.svg");
@@ -503,16 +513,19 @@ button {
   justify-content: center;
   padding: 0 clamp(1.5rem, 4vw, 3.5rem);
 }
-.menu-media__mail {
-  pointer-events: auto;
-  color: var(--rot);
-  font-family: var(--serif);
-  font-size: clamp(1.1rem, 1.9vw, 2rem);
-  letter-spacing: -0.01em;
-  text-align: center;
+.menu-media__panel--contact {
+  gap: clamp(1.75rem, 4vw, 3.5rem);
 }
-.menu-media__mail:hover {
+.menu-media__icon {
+  pointer-events: auto;
+  display: block;
+  width: clamp(2.25rem, 4.5vw, 3.75rem);
+  color: var(--rot);
+  transition: color 0.25s ease, transform 0.4s var(--ease);
+}
+.menu-media__icon:hover {
   color: var(--weiss);
+  transform: translateY(-4px);
 }
 
 /* Office: Karte füllt die ganze Fläche → harte Kante an der Bildschirmmitte */
@@ -1077,18 +1090,44 @@ button {
   opacity: 0.65;
   margin: 0 0 clamp(1.75rem, 3.5vw, 3rem);
 }
-.contact__mail {
-  display: inline-block;
-  font-family: var(--grotesk);
-  font-weight: 500;
-  font-size: clamp(1.9rem, 5.5vw, 5rem);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-  color: var(--weiss);
-  word-break: break-word;
-  transition: color 0.25s ease;
+/* Telefon + Mail als Symbole nebeneinander */
+.contact__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2.75rem, 8vw, 7rem);
 }
-.contact__mail:hover {
+.contact__icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--weiss);
+  transition: color 0.25s ease, transform 0.4s var(--ease);
+}
+.contact__icon .mask {
+  width: clamp(3.25rem, 7vw, 6rem);
+}
+.contact__icon:hover {
+  color: var(--rot);
+  transform: translateY(-5px);
+}
+/* Nummer und Adresse stehen dauerhaft unter dem Symbol: zum Abtippen oder
+   Kopieren braucht man sie lesbar, ein Hover-Versteck haette das verhindert
+   (und auf dem Handy gibt es gar keinen Hover). */
+.contact__icon-label {
+  display: block;
+  margin-top: clamp(0.85rem, 1.6vw, 1.35rem);
+  font-family: var(--serif);
+  font-size: clamp(0.9375rem, 1.25vw, 1.2rem);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: var(--weiss);
+  opacity: 0.55;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+.contact__icon:hover .contact__icon-label,
+.contact__icon:focus-visible .contact__icon-label {
+  opacity: 1;
   color: var(--rot);
 }
 .contact__note {
@@ -1468,6 +1507,9 @@ button {
   /* Sprachumschalter mobil etwas dichter an den Kompass */
   .header-right {
     gap: 0.9rem;
+  }
+  .contact__actions {
+    gap: 3rem;
   }
   .work__grid {
     grid-template-columns: 1fr;
