@@ -24,41 +24,6 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* --------------------------------------------------------------------- *
-   * Passwort-Gate (einfacher Zugangsschutz, clientseitig)
-   * --------------------------------------------------------------------- */
-  (function () {
-    var gate = doc.getElementById("nwa-gate");
-    if (!gate || root.classList.contains("nwa-unlocked")) return;
-    var form = doc.getElementById("nwa-gate-form");
-    var input = doc.getElementById("nwa-pass");
-    var error = doc.getElementById("nwa-gate-error");
-    var PASS = "dirtysouth";
-
-    if (input) input.focus();
-
-    if (form)
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        var val = (input && input.value) || "";
-        if (val === PASS) {
-          try {
-            localStorage.setItem("nwa_unlocked", PASS);
-          } catch (e2) {}
-          root.classList.add("nwa-unlocked");
-        } else {
-          if (error) error.hidden = false;
-          gate.classList.remove("is-wrong");
-          void gate.offsetWidth; // Reflow → Shake erneut auslösen
-          gate.classList.add("is-wrong");
-          if (input) {
-            input.value = "";
-            input.focus();
-          }
-        }
-      });
-  })();
-
-  /* --------------------------------------------------------------------- *
    * Menü-Overlay öffnen / schließen
    * --------------------------------------------------------------------- */
   /* Scroll-Menü: Eintrag in der Mitte am größten (Grotesk), Rest Garamond */
@@ -274,7 +239,9 @@
   })();
 
   /* --------------------------------------------------------------------- *
-   * Custom Cursor — rAF-geführt, kein CSS-Transform-Transition (kein Lag)
+   * Custom Cursor — Position direkt im Event gesetzt (kein rAF-Versatz),
+   * und sofortiges Ausblenden, sobald der Zeiger das Fenster verlaesst
+   * (z. B. hoch in die Browser-Leiste) statt am Rand haengen zu bleiben.
    * --------------------------------------------------------------------- */
   (function () {
     var fine =
@@ -284,65 +251,58 @@
 
     root.classList.add("has-custom-cursor");
 
-    var px = window.innerWidth / 2;
-    var py = window.innerHeight / 2;
-    var raf = null;
-    var seen = false;
+    var style = cursor.style;
+    var inside = false;
 
-    function render() {
-      raf = null;
-      // ganzzahlig runden → keine Subpixel-Zittern
-      cursor.style.transform =
-        "translate3d(" + Math.round(px) + "px," + Math.round(py) + "px,0)";
-    }
-    function schedule() {
-      if (raf === null) raf = window.requestAnimationFrame(render);
+    function show() {
+      if (inside) return;
+      inside = true;
+      cursor.classList.remove("is-out");
+      cursor.classList.add("is-visible");
     }
 
+    // Ohne Fade ausblenden (.is-out schaltet die opacity-Transition ab), damit
+    // der Cursor beim Verlassen des Viewports nicht am Rand nachleuchtet.
+    function hide() {
+      if (!inside) return;
+      inside = false;
+      cursor.classList.add("is-out");
+      cursor.classList.remove("is-visible", "is-link");
+    }
+
+    // Position ohne Umweg ueber requestAnimationFrame: mousemove-Events sind
+    // bereits framesynchron gebuendelt, ein zusaetzlicher rAF-Hop kostet nur
+    // einen Frame Versatz und laesst den Cursor hinterherhinken.
     window.addEventListener(
       "mousemove",
       function (e) {
-        px = e.clientX;
-        py = e.clientY;
-        if (!seen) {
-          seen = true;
-          cursor.classList.add("is-visible");
-        }
-        schedule();
+        style.transform =
+          "translate3d(" + e.clientX + "px," + e.clientY + "px,0)";
+        show();
       },
       { passive: true }
     );
 
-    // Über Links/Buttons: Kompass-Cursor
+    // Verlaesst der Zeiger das Dokument nach oben/aussen (Browser-Leiste,
+    // anderes Fenster, zweiter Bildschirm), ist relatedTarget null.
+    doc.addEventListener("mouseout", function (e) {
+      if (!e.relatedTarget) hide();
+    });
+    root.addEventListener("mouseleave", hide);
+    window.addEventListener("blur", hide);
+    doc.addEventListener("visibilitychange", function () {
+      if (doc.hidden) hide();
+    });
+
+    // Ein einziger mouseover-Handler bestimmt den Zustand neu — selbst-
+    // korrigierend, spart die zweite Listener-Kette pro Mausbewegung.
     var interactiveSel = "a, button, [role='button']";
-    doc.addEventListener("mouseover", function (e) {
-      if (e.target.closest && e.target.closest(interactiveSel))
-        cursor.classList.add("is-link");
-    });
-    doc.addEventListener("mouseout", function (e) {
-      if (e.target.closest && e.target.closest(interactiveSel))
-        cursor.classList.remove("is-link");
-    });
-
-    // Sichtbarkeit beim Verlassen/Betreten des Fensters
-    doc.addEventListener("mouseleave", function () {
-      cursor.classList.remove("is-visible");
-    });
-    doc.addEventListener("mouseenter", function () {
-      if (seen) cursor.classList.add("is-visible");
-    });
-
-    // Wenn ein natives Element (input/textarea) den Zeiger braucht,
-    // blenden wir den Custom-Cursor aus.
+    var textSel = "input, textarea, select, [contenteditable]";
     doc.addEventListener("mouseover", function (e) {
       var t = e.target;
-      if (t && t.closest && t.closest("input, textarea, select, [contenteditable]"))
-        cursor.classList.add("is-text");
-    });
-    doc.addEventListener("mouseout", function (e) {
-      var t = e.target;
-      if (t && t.closest && t.closest("input, textarea, select, [contenteditable]"))
-        cursor.classList.remove("is-text");
+      if (!t || !t.closest) return;
+      cursor.classList.toggle("is-link", !!t.closest(interactiveSel));
+      cursor.classList.toggle("is-text", !!t.closest(textSel));
     });
   })();
 

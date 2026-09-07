@@ -3,51 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Impressum — Neue Welt Agentur</title>
-    <meta name="robots" content="noindex, nofollow" />
+    <title data-i18n="legal.imprintTitle">Impressum — Neue Welt Agentur</title>
     <meta name="theme-color" content="#ff2c3b" />
-    <script>
-      (function () {
-        try {
-          if (localStorage.getItem("nwa_unlocked") === "dirtysouth")
-            document.documentElement.classList.add("nwa-unlocked");
-        } catch (e) {}
-      })();
-    </script>
     <link rel="icon" href="assets/svg/favicon.svg?v=20260722" type="image/svg+xml" />
-    <link rel="stylesheet" href="css/style.css?v=20260817e" />
+    <link rel="stylesheet" href="css/style.css?v=20260907a" />
   </head>
   <body>
-    <!-- Passwort-Gate -->
-    <div class="nwa-gate" id="nwa-gate">
-      <form class="nwa-gate__form" id="nwa-gate-form">
-        <span class="nwa-gate__mark mask mask--kompass" aria-hidden="true"></span>
-        <label class="nwa-gate__label" for="nwa-pass">Neue Welt Agentur</label>
-        <input
-          class="nwa-gate__input"
-          id="nwa-pass"
-          type="password"
-          placeholder="Passwort"
-          aria-label="Passwort"
-          autocomplete="off"
-          autocapitalize="off"
-          autocorrect="off"
-          spellcheck="false"
-        />
-        <button class="nwa-gate__btn" type="submit">Eintreten</button>
-        <p class="nwa-gate__error" id="nwa-gate-error" role="alert" hidden>
-          Falsches Passwort
-        </p>
-      </form>
-    </div>
 
     <div class="cursor" aria-hidden="true"></div>
 
     <header class="site-header" data-color="dunkel">
-      <a class="menu-toggle" href="index.html">Zurück</a>
-      <a class="header-kompass" href="index.html" aria-label="Startseite">
-        <span class="mask mask--kompass" role="img" aria-hidden="true"></span>
-      </a>
+      <a class="menu-toggle" href="index.html" data-i18n="nav.back">Zurück</a>
+      <div class="header-right">
+        <div
+          class="lang-switch"
+          role="group"
+          data-i18n-attr="aria-label:nav.langLabel"
+          aria-label="Sprache wählen"
+        >
+          <button class="lang-switch__btn" type="button" data-lang="de" lang="de">DE</button>
+          <span class="lang-switch__sep" aria-hidden="true">/</span>
+          <button class="lang-switch__btn" type="button" data-lang="en" lang="en">ENG</button>
+        </div>
+        <a class="header-kompass" href="index.html" data-i18n-attr="aria-label:nav.homeAria" aria-label="Startseite">
+          <span class="mask mask--kompass" role="img" aria-hidden="true"></span>
+        </a>
+      </div>
     </header>
 
     <main class="legal">
@@ -55,9 +36,9 @@
         <a href="index.html" aria-label="Neue Welt Agentur — Startseite">
           <span class="legal__mark mask mask--wortmarke" role="img" aria-label="Neue Welt Agentur"></span>
         </a>
-        <h1>Impressum</h1>
+        <h1 data-i18n="legal.imprintH1">Impressum</h1>
 
-        <h2>Angaben gemäß § 5 DDG</h2>
+        <h2 data-i18n="legal.imprintH2Info">Angaben gemäß § 5 DDG</h2>
         <address>
           Neue Welt Agentur<br />
           Musterstraße 1<br />
@@ -65,24 +46,25 @@
           Deutschland
         </address>
 
-        <h2>Kontakt</h2>
+        <h2 data-i18n="legal.imprintH2Contact">Kontakt</h2>
         <p>
-          E-Mail:
-          <a href="mailto:hello@neue-welt-agentur.de">hello@neue-welt-agentur.de</a>
+          <span data-i18n="legal.imprintMail">E-Mail:</span>
+          <a href="mailto:hello@neueweltagentur.com">hello@neueweltagentur.com</a>
         </p>
 
-        <h2>Verantwortlich für den Inhalt</h2>
+        <h2 data-i18n="legal.imprintH2Resp">Verantwortlich für den Inhalt</h2>
         <p>Neue Welt Agentur</p>
 
-        <p class="legal__note">
+        <p class="legal__note" data-i18n="legal.note">
           Platzhalter — die vollständigen Angaben werden vor dem
           Live-Gang ergänzt.
         </p>
 
-        <a class="legal__back" href="index.html">← Zurück zur Startseite</a>
+        <a class="legal__back" href="index.html" data-i18n="legal.back">← Zurück zur Startseite</a>
       </div>
     </main>
 
-    <script src="js/main.js?v=20260817e"></script>
+    <script src="js/i18n.js?v=20260907a"></script>
+    <script src="js/main.js?v=20260907a"></script>
   </body>
 </html>

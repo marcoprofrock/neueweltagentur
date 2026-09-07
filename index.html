@@ -3,34 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Neue Welt Agentur</title>
+    <title data-i18n="meta.title">Neue Welt Agentur — Brand Studio aus Stuttgart</title>
     <meta
       name="description"
-      content="Neue Welt Agentur ist alles was noch nicht existiert und erschaffen werden darf. Ein Kollektiv, das die Verantwortung hat, die Welt zu formen."
+      data-i18n-attr="content:meta.desc"
+      content="Neue Welt Agentur ist ein Brand Studio in Stuttgart. Unsere Überzeugung: Ein Briefing hat zwei Kunden — das Unternehmen, das zahlt, und die Menschen, die es erreicht."
     />
     <meta name="theme-color" content="#ff2c3b" />
-    <meta name="robots" content="noindex, nofollow" />
-    <script>
-      /* Einfacher Passwort-Gate: schon freigeschaltet? -> Klasse setzen (kein FOUC) */
-      (function () {
-        try {
-          if (localStorage.getItem("nwa_unlocked") === "dirtysouth")
-            document.documentElement.classList.add("nwa-unlocked");
-        } catch (e) {}
-      })();
-    </script>
+    <link rel="canonical" href="https://neueweltagentur.com/" />
     <link rel="icon" href="assets/svg/favicon.svg?v=20260722" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="assets/svg/favicon.svg?v=20260722" />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Neue Welt Agentur" />
+    <meta property="og:url" content="https://neueweltagentur.com/" />
+    <meta property="og:site_name" content="Neue Welt Agentur" />
+    <meta property="og:title" data-i18n-attr="content:meta.title" content="Neue Welt Agentur — Brand Studio aus Stuttgart" />
     <meta
       property="og:description"
-      content="Neue Welt Agentur ist alles was noch nicht existiert und erschaffen werden darf."
+      data-i18n-attr="content:meta.desc"
+      content="Neue Welt Agentur ist ein Brand Studio in Stuttgart. Unsere Überzeugung: Ein Briefing hat zwei Kunden — das Unternehmen, das zahlt, und die Menschen, die es erreicht."
     />
-    <meta property="og:image" content="assets/img/hero-1920.jpg" />
+    <meta property="og:image" content="https://neueweltagentur.com/assets/img/hero-1920.jpg" />
     <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale:alternate" content="en_GB" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preload" as="image" href="assets/img/hero-1920.jpg" />
@@ -41,32 +37,9 @@
       href="assets/fonts/eb-garamond-latin.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="css/style.css?v=20260817k" />
+    <link rel="stylesheet" href="css/style.css?v=20260907a" />
   </head>
   <body>
-    <!-- Passwort-Gate (einfacher Zugangsschutz) -->
-    <div class="nwa-gate" id="nwa-gate">
-      <form class="nwa-gate__form" id="nwa-gate-form">
-        <span class="nwa-gate__mark mask mask--kompass" aria-hidden="true"></span>
-        <label class="nwa-gate__label" for="nwa-pass">Neue Welt Agentur</label>
-        <input
-          class="nwa-gate__input"
-          id="nwa-pass"
-          type="password"
-          placeholder="Passwort"
-          aria-label="Passwort"
-          autocomplete="off"
-          autocapitalize="off"
-          autocorrect="off"
-          spellcheck="false"
-        />
-        <button class="nwa-gate__btn" type="submit">Eintreten</button>
-        <p class="nwa-gate__error" id="nwa-gate-error" role="alert" hidden>
-          Falsches Passwort
-        </p>
-      </form>
-    </div>
-
     <!-- Custom Cursor -->
     <div class="cursor" aria-hidden="true"></div>
 
@@ -75,23 +48,36 @@
 
     <!-- ===================== Header ===================== -->
     <header class="site-header" data-color="rot">
-      <a class="menu-toggle header-home" href="#top">Home</a>
-      <button
-        class="header-kompass"
-        type="button"
-        aria-expanded="false"
-        aria-controls="menu"
-        aria-label="Menü öffnen"
-      >
-        <span class="mask mask--kompass" role="img" aria-hidden="true"></span>
-      </button>
+      <a class="menu-toggle header-home" href="#top" data-i18n="nav.home">Home</a>
+      <div class="header-right">
+        <div
+          class="lang-switch"
+          role="group"
+          data-i18n-attr="aria-label:nav.langLabel"
+          aria-label="Sprache wählen"
+        >
+          <button class="lang-switch__btn" type="button" data-lang="de" lang="de">DE</button>
+          <span class="lang-switch__sep" aria-hidden="true">/</span>
+          <button class="lang-switch__btn" type="button" data-lang="en" lang="en">ENG</button>
+        </div>
+        <button
+          class="header-kompass"
+          type="button"
+          aria-expanded="false"
+          aria-controls="menu"
+          data-i18n-attr="aria-label:nav.menuOpen"
+          aria-label="Menü öffnen"
+        >
+          <span class="mask mask--kompass" role="img" aria-hidden="true"></span>
+        </button>
+      </div>
     </header>
 
     <!-- ===================== Menü-Overlay ===================== -->
     <nav class="menu-overlay" id="menu" aria-hidden="true">
       <div class="menu-overlay__top">
         <button class="menu-close" type="button">
-          Schliessen
+          <span data-i18n="nav.close">Schliessen</span>
           <svg
             class="menu-close__x"
             viewBox="0 0 20 20"
@@ -108,17 +94,18 @@
         <span class="menu-kompass mask mask--kompass"></span>
       </div>
       <div class="menu-scroller" tabindex="-1">
-        <a class="menu-item" href="#work">Work</a>
-        <a class="menu-item" href="#manifesto">Manifesto</a>
-        <a class="menu-item" href="#team">Team</a>
-        <a class="menu-item" href="#contact">Contact</a>
-        <a class="menu-item" href="#location">Office</a>
+        <a class="menu-item" href="#work" data-i18n="nav.work">Work</a>
+        <a class="menu-item" href="#manifesto" data-i18n="nav.manifesto">Manifesto</a>
+        <a class="menu-item" href="#team" data-i18n="nav.team">Team</a>
+        <a class="menu-item" href="#contact" data-i18n="nav.contact">Contact</a>
+        <a class="menu-item" href="#location" data-i18n="nav.office">Office</a>
       </div>
 
       <!-- Rechte Bild-/Video-Bühne: pro Menüpunkt ein anderes Motiv,
-           sichtbar ist nur das Panel des gerade zentrierten Eintrags -->
+           sichtbar ist nur das Panel des gerade zentrierten Eintrags.
+           Reihenfolge muss den Menüpunkten oben entsprechen (Mapping per Index). -->
       <div class="menu-media" aria-hidden="true">
-        <!-- Work: Video der OACE-Work-Kachel -->
+        <!-- Work: Video der OACE-Kachel -->
         <div class="menu-media__panel" data-media="work">
           <video
             class="menu-media__video"
@@ -144,7 +131,7 @@
         </div>
         <!-- Contact: rote Fläche, Mail auf schwarzem Block -->
         <div class="menu-media__panel menu-media__panel--contact" data-media="contact">
-          <a class="menu-media__mail" href="mailto:hello@neue-welt-agentur.de">hello@neue-welt-agentur.de</a>
+          <a class="menu-media__mail" href="mailto:hello@neueweltagentur.com">hello@neueweltagentur.com</a>
         </div>
         <!-- Office: Stuttgart-Karte -->
         <div class="menu-media__panel menu-media__panel--office" data-media="location">
@@ -153,8 +140,8 @@
       </div>
 
       <div class="menu-meta">
-        <a href="impressum.html">Impressum</a>
-        <a href="datenschutz.html">Datenschutz</a>
+        <a href="impressum.html" data-i18n="nav.imprint">Impressum</a>
+        <a href="datenschutz.html" data-i18n="nav.privacy">Datenschutz</a>
       </div>
     </nav>
 
@@ -203,70 +190,67 @@
           role="img"
           aria-label="Neue Welt Agentur"
         ></span>
-        <p class="manifesto__text">
-          Neue Welt Agentur ist alles was noch nicht existiert und erschaffen
-          werden darf. Als gemeinsames Kollektiv auf der Welt in der wir leben
-          und als Creative der du bist haben wir die Gabe und die Verantwortung
-          die Welt zu formen.
+        <p class="manifesto__claim" data-i18n="manifesto.claim">
+          ein briefing hat zwei kunden.
         </p>
+        <div class="manifesto__body">
+          <p data-i18n="manifesto.p1">
+            das unternehmen, das zahlt, und die menschen, die es erreicht. beide
+            sollen etwas mitnehmen. das gelingt nur, wenn das, was ein projekt
+            der öffentlichkeit gibt, und sein kommerzielles interesse in
+            derselben idee aufgehen.
+          </p>
+          <p data-i18n="manifesto.p2">
+            wir arbeiten über disziplinen hinweg: industriedesign, grafikdesign,
+            kommunikationsdesign. objekt, system und botschaft sind für uns drei
+            werkzeuge, um eine idee zum leben zu bringen.
+          </p>
+          <p data-i18n="manifesto.p3">
+            deshalb arbeiten wir innerhalb kommerzieller briefings statt
+            außerhalb. ein mediabudget ist der größte verteilungskanal, den ein
+            creative je in die hand bekommt — wir zielen lieber damit, als ihn
+            auszuschlagen.
+          </p>
+        </div>
         <span class="manifesto__stern mask mask--kompass" aria-hidden="true"></span>
       </section>
 
-      <!-- ===================== Work ===================== -->
-      <section class="work" id="work" data-color="weiss">
+      <!-- ===================== Work =====================
+           Ein einziges Projekt, randlos ueber die volle Breite. Der schwarze
+           Block trennt zugleich die beiden roten Sektionen (Manifesto/Team). -->
+      <section class="work work--single" id="work" data-color="weiss">
         <div class="work__head">
-          <h2 class="work__title">Work</h2>
+          <h2 class="work__title" data-i18n="work.title">Work</h2>
+          <p class="work__count" data-i18n="work.count">Ausgewählte Arbeit</p>
         </div>
-        <div class="work__grid">
-          <a class="work-card work-card--video" href="oace.html" aria-label="OACE — Brand Design">
-            <video
-              class="work-card__video"
-              src="assets/video/work-01.mp4"
-              poster="assets/video/work-01.jpg"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-              aria-hidden="true"
-            ></video>
-            <span class="work-card__meta">
-              <span class="work-card__name">OACE</span>
-              <span class="work-card__tag">Brand Design</span>
-            </span>
-          </a>
-          <a class="work-card work-card--video" href="#work" aria-label="500l/s — Type Design">
-            <video
-              class="work-card__video"
-              src="assets/video/work-02.mp4"
-              poster="assets/video/work-02.jpg"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-              aria-hidden="true"
-            ></video>
-            <span class="work-card__meta">
-              <span class="work-card__name">500l/s</span>
-              <span class="work-card__tag">Type Design</span>
-            </span>
-          </a>
-          <a class="work-card" href="#work" aria-label="Projekt — folgt">
-            <img class="work-card__img" src="assets/img/work-placeholder.jpg" alt="" loading="lazy" />
-            <span class="work-card__meta">
-              <span class="work-card__name">Projekt 03</span>
-              <span class="work-card__tag">Film</span>
-            </span>
-          </a>
-        </div>
+        <a
+          class="work-card work-card--video work-card--wide"
+          href="oace.html"
+          aria-label="OACE — Brand Design"
+        >
+          <video
+            class="work-card__video"
+            src="assets/video/work-oace.mp4"
+            poster="assets/video/work-oace.jpg"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+          ></video>
+          <span class="work-card__meta">
+            <span class="work-card__name">OACE</span>
+            <span class="work-card__tag" data-i18n="work.oaceTag">Brand Design</span>
+          </span>
+        </a>
       </section>
 
       <!-- ===================== Team ===================== -->
       <section class="team" id="team" data-color="dunkel">
         <div class="team__head">
-          <h2 class="team__title">Team</h2>
-          <p class="team__intro">
+          <h2 class="team__title" data-i18n="team.title">Team</h2>
+          <p class="team__intro" data-i18n="team.intro">
             Creatives &amp; Partner der Neuen Welt Agentur
           </p>
         </div>
@@ -278,17 +262,18 @@
             </div>
             <h3 class="team-card__name">Daryl Kastenholz</h3>
             <div class="team-card__meta">
-              <p class="team-card__role">Partner</p>
+              <p class="team-card__role" data-i18n="team.role">Partner</p>
               <button
                 class="team-card__toggle"
                 type="button"
                 aria-expanded="false"
                 aria-controls="bio-daryl"
+                data-i18n-attr="aria-label:team.bioDaryl"
                 aria-label="Bio von Daryl Kastenholz anzeigen"
               ></button>
             </div>
             <div class="team-card__bio-wrap">
-              <p class="team-card__bio" id="bio-daryl">
+              <p class="team-card__bio" id="bio-daryl" data-i18n="team.textDaryl">
                 Daryl war lange Zeit Head of Design bei OACE, wo er das
                 Erscheinungsbild sowie mehrere Kollektionen und die zugehörigen
                 Kampagnen verantwortete. Seit einigen Jahren arbeitet er
@@ -303,17 +288,18 @@
             </div>
             <h3 class="team-card__name">Marco Pröfrock</h3>
             <div class="team-card__meta">
-              <p class="team-card__role">Partner</p>
+              <p class="team-card__role" data-i18n="team.role">Partner</p>
               <button
                 class="team-card__toggle"
                 type="button"
                 aria-expanded="false"
                 aria-controls="bio-marco"
+                data-i18n-attr="aria-label:team.bioMarco"
                 aria-label="Bio von Marco Pröfrock anzeigen"
               ></button>
             </div>
             <div class="team-card__bio-wrap">
-              <p class="team-card__bio" id="bio-marco">
+              <p class="team-card__bio" id="bio-marco" data-i18n="team.textMarco">
                 Marco ist ein Creative mit Schwerpunkt auf Konzept, Advertising
                 &amp; Design. Seine Arbeiten wurden mit zahlreichen
                 internationalen Awards ausgezeichnet, darunter die Cannes Lions
@@ -331,17 +317,18 @@
             </div>
             <h3 class="team-card__name">David Bosch</h3>
             <div class="team-card__meta">
-              <p class="team-card__role">Partner</p>
+              <p class="team-card__role" data-i18n="team.role">Partner</p>
               <button
                 class="team-card__toggle"
                 type="button"
                 aria-expanded="false"
                 aria-controls="bio-david"
+                data-i18n-attr="aria-label:team.bioDavid"
                 aria-label="Bio von David Bosch anzeigen"
               ></button>
             </div>
             <div class="team-card__bio-wrap">
-              <p class="team-card__bio" id="bio-david">
+              <p class="team-card__bio" id="bio-david" data-i18n="team.textDavid">
                 David begann als autodidaktischer Designer mit Schwerpunkt auf
                 Graphic Design und Fashion und prägte in den Anfangsjahren stark
                 die Marke OLAKALA. Er ist Mitbegründer der Streetwear-Brand
@@ -355,8 +342,8 @@
       <!-- ===================== Contact ===================== -->
       <section class="contact" id="contact" data-color="weiss">
         <div class="contact__inner">
-          <p class="contact__label">Contact</p>
-          <a class="contact__mail" href="mailto:hello@neue-welt-agentur.de">hello@neue-welt-agentur.de</a>
+          <p class="contact__label" data-i18n="contact.label">Contact</p>
+          <a class="contact__mail" href="mailto:hello@neueweltagentur.com">hello@neueweltagentur.com</a>
           <p class="contact__note">Neue Welt Agentur · Stuttgart</p>
         </div>
       </section>
@@ -367,7 +354,7 @@
           <span class="location__milan mask mask--milan"></span>
         </div>
         <div class="location__info">
-          <p class="location__label">Office</p>
+          <p class="location__label" data-i18n="office.label">Office</p>
           <p class="location__city">Stuttgart</p>
           <address class="location__address">
             Rotebühlstraße 108, 70197 Stuttgart
@@ -377,6 +364,7 @@
             href="https://www.google.com/maps/dir/?api=1&amp;destination=Roteb%C3%BChlstra%C3%9Fe%20108%2C%2070197%20Stuttgart"
             target="_blank"
             rel="noopener"
+            data-i18n="office.route"
           >Route ansehen</a>
         </div>
         <a
@@ -384,11 +372,13 @@
           href="https://www.google.com/maps/search/?api=1&amp;query=Roteb%C3%BChlstra%C3%9Fe%20108%2C%2070197%20Stuttgart"
           target="_blank"
           rel="noopener"
+          data-i18n-attr="aria-label:office.mapAria"
           aria-label="Rotebühlstraße 108, Stuttgart auf Google Maps"
         >
           <img
             class="location__karte"
             src="assets/svg/karte-stuttgart.svg?v=20260815"
+            data-i18n-attr="alt:office.mapAlt"
             alt="Stilisierte Karte mit dem Standort der Neue Welt Agentur an der Rotebühlstraße 108 in Stuttgart"
             width="1340"
             height="447"
@@ -406,19 +396,20 @@
           role="img"
           aria-label="Neue Welt Agentur"
         ></span>
-        <nav class="site-footer__links" aria-label="Rechtliches">
-          <a href="#manifesto">Manifesto</a>
-          <a href="#work">Work</a>
-          <a href="#team">Team</a>
-          <a href="#contact">Contact</a>
-          <a href="#location">Office</a>
-          <a href="impressum.html">Impressum</a>
-          <a href="datenschutz.html">Datenschutz</a>
+        <nav class="site-footer__links" data-i18n-attr="aria-label:nav.footerAria" aria-label="Rechtliches">
+          <a href="#work" data-i18n="nav.work">Work</a>
+          <a href="#manifesto" data-i18n="nav.manifesto">Manifesto</a>
+          <a href="#team" data-i18n="nav.team">Team</a>
+          <a href="#contact" data-i18n="nav.contact">Contact</a>
+          <a href="#location" data-i18n="nav.office">Office</a>
+          <a href="impressum.html" data-i18n="nav.imprint">Impressum</a>
+          <a href="datenschutz.html" data-i18n="nav.privacy">Datenschutz</a>
         </nav>
       </div>
       <p class="site-footer__copy">© <span id="year">2026</span> Neue Welt Agentur</p>
     </footer>
 
-    <script src="js/main.js?v=20260817j"></script>
+    <script src="js/i18n.js?v=20260907a"></script>
+    <script src="js/main.js?v=20260907a"></script>
   </body>
 </html>

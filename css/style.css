@@ -207,6 +207,35 @@ button {
 .menu-toggle:hover {
   opacity: 0.7;
 }
+/* Rechte Header-Gruppe: Sprachumschalter + Kompass */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 1.9vw, 1.9rem);
+}
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--serif);
+  font-size: clamp(0.9375rem, 1.3vw, 1.3125rem);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.lang-switch__btn {
+  opacity: 0.45;
+  transition: opacity 0.25s ease;
+}
+.lang-switch__btn:hover {
+  opacity: 0.8;
+}
+.lang-switch__btn.is-active {
+  opacity: 1;
+}
+.lang-switch__sep {
+  opacity: 0.35;
+}
+
 .header-kompass {
   width: clamp(1.875rem, 2.4vw, 2.625rem);
 }
@@ -601,13 +630,29 @@ button {
   max-width: min(60vw, 660px);
   margin-inline: auto;
 }
-.manifesto__text {
-  max-width: 22ch;
+/* Grosse Claim-Zeile: „ein briefing hat zwei kunden." */
+.manifesto__claim {
+  max-width: 17ch;
   margin: clamp(2.75rem, 7vw, 5rem) auto 0;
   font-size: clamp(1.75rem, 3.65vw, 4.375rem);
-  line-height: 1.12;
+  line-height: 1.08;
   letter-spacing: -0.025em;
   text-wrap: balance;
+}
+/* Fliesstext darunter — deutlich kleiner, damit der Claim traegt */
+.manifesto__body {
+  max-width: 44ch;
+  margin: clamp(1.75rem, 4vw, 3rem) auto 0;
+  font-size: clamp(1.0625rem, 1.55vw, 1.5rem);
+  line-height: 1.34;
+  letter-spacing: -0.012em;
+  text-wrap: pretty;
+}
+.manifesto__body p {
+  margin: 0;
+}
+.manifesto__body p + p {
+  margin-top: 0.9em;
 }
 .manifesto__stern {
   width: clamp(3.75rem, 6vw, 5.5rem);
@@ -686,6 +731,22 @@ button {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+
+/* Einzelprojekt: eine Kachel randlos ueber die volle Breite statt Dreier-Grid.
+   Die negativen Margins heben den Seitenrand der Sektion wieder auf. */
+.work--single .work-card--wide {
+  aspect-ratio: 16 / 9;
+  margin-inline: calc(var(--rand) * -1);
+}
+.work-card--wide .work-card__meta {
+  padding: clamp(1.25rem, 2.6vw, 2.75rem) clamp(1.5rem, 3vw, 3.25rem);
+}
+.work-card--wide .work-card__name {
+  font-size: clamp(1.75rem, 3.6vw, 3.75rem);
+}
+.work-card--wide .work-card__tag {
+  font-size: clamp(0.875rem, 1.15vw, 1.25rem);
 }
 .work-card {
   position: relative;
@@ -1121,92 +1182,6 @@ button {
 }
 
 /* ==========================================================================
-   Passwort-Gate (einfacher Zugangsschutz)
-   ========================================================================== */
-.nwa-gate {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: var(--rot);
-  color: var(--schwarz);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--rand);
-}
-.nwa-unlocked .nwa-gate {
-  display: none;
-}
-html:not(.nwa-unlocked) body {
-  overflow: hidden;
-}
-.nwa-gate__form {
-  width: min(90vw, 30rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(1rem, 2vw, 1.5rem);
-  text-align: center;
-}
-.nwa-gate__mark {
-  width: clamp(2.75rem, 6vw, 4rem);
-  color: var(--schwarz);
-  margin-bottom: 0.5rem;
-}
-.nwa-gate__label {
-  font-family: var(--grotesk);
-  font-weight: 500;
-  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-.nwa-gate__input {
-  width: 100%;
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  text-align: center;
-  padding: 0.75em 1em;
-  color: var(--schwarz);
-  background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.45);
-  border-radius: 0;
-  outline: none;
-}
-.nwa-gate__input::placeholder {
-  color: rgba(0, 0, 0, 0.5);
-}
-.nwa-gate__input:focus {
-  border-color: var(--schwarz);
-}
-.nwa-gate__btn {
-  font-family: var(--grotesk);
-  font-weight: 500;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
-  padding: 0.75em 2.25em;
-  color: var(--rot);
-  background: var(--schwarz);
-  cursor: pointer;
-}
-.nwa-gate__btn:hover {
-  opacity: 0.85;
-}
-.nwa-gate__error {
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  color: var(--schwarz);
-}
-.nwa-gate.is-wrong .nwa-gate__form {
-  animation: gate-shake 0.35s ease;
-}
-@keyframes gate-shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-8px); }
-  75% { transform: translateX(8px); }
-}
-
-/* ==========================================================================
    Custom Cursor (nur bei präzisem Zeiger)
    ========================================================================== */
 .cursor {
@@ -1228,7 +1203,7 @@ html:not(.nwa-unlocked) body {
     z-index: 9999;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.16s ease;
     will-change: transform;
   }
   .cursor.is-visible {
@@ -1236,6 +1211,12 @@ html:not(.nwa-unlocked) body {
   }
   .cursor.is-text {
     opacity: 0;
+  }
+  /* Zeiger hat das Fenster verlassen: ohne Nachleuchten sofort weg,
+     sonst bleibt der Cursor sichtbar am Viewport-Rand stehen. */
+  .cursor.is-out {
+    opacity: 0;
+    transition: none;
   }
   /* Inneres Element = Optik (Größe/Animation getrennt von der Position) */
   .cursor::before {
@@ -1476,15 +1457,27 @@ html:not(.nwa-unlocked) body {
   .manifesto__wortmarke {
     max-width: 88vw;
   }
-  .manifesto__text {
-    max-width: 15ch;
+  .manifesto__claim {
+    max-width: 14ch;
     font-size: clamp(2rem, 8.3vw, 3.25rem);
+  }
+  .manifesto__body {
+    max-width: 34ch;
+    font-size: clamp(1rem, 4.1vw, 1.25rem);
+  }
+  /* Sprachumschalter mobil etwas dichter an den Kompass */
+  .header-right {
+    gap: 0.9rem;
   }
   .work__grid {
     grid-template-columns: 1fr;
   }
   .work-card {
     aspect-ratio: 3 / 2;
+  }
+  /* 16:9 wird auf dem Handy zu flach fuer die Bildmarke */
+  .work--single .work-card--wide {
+    aspect-ratio: 4 / 3;
   }
   .team__grid {
     grid-template-columns: 1fr;

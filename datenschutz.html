@@ -3,51 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Datenschutz — Neue Welt Agentur</title>
-    <meta name="robots" content="noindex, nofollow" />
+    <title data-i18n="legal.privacyTitle">Datenschutz — Neue Welt Agentur</title>
     <meta name="theme-color" content="#ff2c3b" />
-    <script>
-      (function () {
-        try {
-          if (localStorage.getItem("nwa_unlocked") === "dirtysouth")
-            document.documentElement.classList.add("nwa-unlocked");
-        } catch (e) {}
-      })();
-    </script>
     <link rel="icon" href="assets/svg/favicon.svg?v=20260722" type="image/svg+xml" />
-    <link rel="stylesheet" href="css/style.css?v=20260817e" />
+    <link rel="stylesheet" href="css/style.css?v=20260907a" />
   </head>
   <body>
-    <!-- Passwort-Gate -->
-    <div class="nwa-gate" id="nwa-gate">
-      <form class="nwa-gate__form" id="nwa-gate-form">
-        <span class="nwa-gate__mark mask mask--kompass" aria-hidden="true"></span>
-        <label class="nwa-gate__label" for="nwa-pass">Neue Welt Agentur</label>
-        <input
-          class="nwa-gate__input"
-          id="nwa-pass"
-          type="password"
-          placeholder="Passwort"
-          aria-label="Passwort"
-          autocomplete="off"
-          autocapitalize="off"
-          autocorrect="off"
-          spellcheck="false"
-        />
-        <button class="nwa-gate__btn" type="submit">Eintreten</button>
-        <p class="nwa-gate__error" id="nwa-gate-error" role="alert" hidden>
-          Falsches Passwort
-        </p>
-      </form>
-    </div>
 
     <div class="cursor" aria-hidden="true"></div>
 
     <header class="site-header" data-color="dunkel">
-      <a class="menu-toggle" href="index.html">Zurück</a>
-      <a class="header-kompass" href="index.html" aria-label="Startseite">
-        <span class="mask mask--kompass" role="img" aria-hidden="true"></span>
-      </a>
+      <a class="menu-toggle" href="index.html" data-i18n="nav.back">Zurück</a>
+      <div class="header-right">
+        <div
+          class="lang-switch"
+          role="group"
+          data-i18n-attr="aria-label:nav.langLabel"
+          aria-label="Sprache wählen"
+        >
+          <button class="lang-switch__btn" type="button" data-lang="de" lang="de">DE</button>
+          <span class="lang-switch__sep" aria-hidden="true">/</span>
+          <button class="lang-switch__btn" type="button" data-lang="en" lang="en">ENG</button>
+        </div>
+        <a class="header-kompass" href="index.html" data-i18n-attr="aria-label:nav.homeAria" aria-label="Startseite">
+          <span class="mask mask--kompass" role="img" aria-hidden="true"></span>
+        </a>
+      </div>
     </header>
 
     <main class="legal">
@@ -55,39 +36,40 @@
         <a href="index.html" aria-label="Neue Welt Agentur — Startseite">
           <span class="legal__mark mask mask--wortmarke" role="img" aria-label="Neue Welt Agentur"></span>
         </a>
-        <h1>Datenschutz</h1>
+        <h1 data-i18n="legal.privacyH1">Datenschutz</h1>
 
-        <h2>Datenschutz auf einen Blick</h2>
-        <p>
+        <h2 data-i18n="legal.privacyH2Glance">Datenschutz auf einen Blick</h2>
+        <p data-i18n="legal.privacyGlance">
           Diese Website ist bewusst schlank gebaut: keine Cookies, kein
           Tracking, keine Analyse-Dienste. Schriften werden lokal
           ausgeliefert (kein externes Font-CDN).
         </p>
 
-        <h2>Hosting</h2>
-        <p>
+        <h2 data-i18n="legal.privacyH2Hosting">Hosting</h2>
+        <p data-i18n="legal.privacyHosting">
           Die Seite wird über GitHub Pages (GitHub, Inc.) bereitgestellt. Beim
           Aufruf werden serverseitig technisch notwendige Zugriffsdaten (z. B.
           IP-Adresse, Zeitpunkt, angefragte Datei) verarbeitet.
         </p>
 
-        <h2>Ihre Rechte</h2>
-        <p>
+        <h2 data-i18n="legal.privacyH2Rights">Ihre Rechte</h2>
+        <p data-i18n-html="legal.privacyRights">
           Sie haben das Recht auf Auskunft, Berichtigung, Löschung und
           Einschränkung der Verarbeitung Ihrer personenbezogenen Daten.
           Wenden Sie sich dazu an die im
           <a href="impressum.html">Impressum</a> genannte Adresse.
         </p>
 
-        <p class="legal__note">
+        <p class="legal__note" data-i18n="legal.privacyNote">
           Platzhalter — die vollständige Datenschutzerklärung wird vor dem
           Live-Gang ergänzt.
         </p>
 
-        <a class="legal__back" href="index.html">← Zurück zur Startseite</a>
+        <a class="legal__back" href="index.html" data-i18n="legal.back">← Zurück zur Startseite</a>
       </div>
     </main>
 
-    <script src="js/main.js?v=20260817e"></script>
+    <script src="js/i18n.js?v=20260907a"></script>
+    <script src="js/main.js?v=20260907a"></script>
   </body>
 </html>
