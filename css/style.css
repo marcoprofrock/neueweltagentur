@@ -1547,3 +1547,90 @@ button {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ==========================================================================
+   Passwort-Gate (einfacher Zugangsschutz)
+   ========================================================================== */
+.nwa-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--rot);
+  color: var(--schwarz);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--rand);
+}
+.nwa-unlocked .nwa-gate {
+  display: none;
+}
+html:not(.nwa-unlocked) body {
+  overflow: hidden;
+}
+.nwa-gate__form {
+  width: min(90vw, 30rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  text-align: center;
+}
+.nwa-gate__mark {
+  width: clamp(2.75rem, 6vw, 4rem);
+  color: var(--schwarz);
+  margin-bottom: 0.5rem;
+}
+.nwa-gate__label {
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.nwa-gate__input {
+  width: 100%;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 0.75em 1em;
+  color: var(--schwarz);
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  border-radius: 0;
+  outline: none;
+}
+.nwa-gate__input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+.nwa-gate__input:focus {
+  border-color: var(--schwarz);
+}
+.nwa-gate__btn {
+  font-family: var(--grotesk);
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  padding: 0.75em 2.25em;
+  color: var(--rot);
+  background: var(--schwarz);
+  cursor: pointer;
+}
+.nwa-gate__btn:hover {
+  opacity: 0.85;
+}
+.nwa-gate__error {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--schwarz);
+}
+.nwa-gate.is-wrong .nwa-gate__form {
+  animation: gate-shake 0.35s ease;
+}
+@keyframes gate-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+

@@ -37,9 +37,20 @@
       href="assets/fonts/eb-garamond-latin.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="css/style.css?v=20260907a" />
+    <meta name="robots" content="noindex, nofollow" />
+    <script>
+      /* Passwort-Gate: schon freigeschaltet? -> Klasse setzen (kein FOUC) */
+      (function () {
+        try {
+          if (localStorage.getItem("nwa_unlocked") === "dirtysouth")
+            document.documentElement.classList.add("nwa-unlocked");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="css/style.css?v=20260926a" />
   </head>
   <body>
+    <script src="js/gate.js?v=20260926a"></script>
     <!-- Custom Cursor -->
     <div class="cursor" aria-hidden="true"></div>
 
